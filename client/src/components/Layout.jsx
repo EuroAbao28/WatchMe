@@ -13,6 +13,7 @@ function Layout() {
         <Header />
         <Outlet />
       </CenteredContainer>
+
       <ScrollUpButton />
       <Footer />
     </ParentContainer>

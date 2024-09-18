@@ -4,14 +4,15 @@ import { removeHtmlTags } from "../utils/Helpers";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { BsCcSquareFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
-function WatchCover({ data }) {
+function WatchCover({ data, epToWatch }) {
   return (
     <div
       style={{
         backgroundImage: `url(${data.poster})`,
       }}
-      className="min-h-[20rem] flex flex-col md:mx-6 lg:h-[30rem] transition-all duration-1000 ease-in-out xl:h-[35rem] bg-cover bg-center md:rounded-md overflow-hidden">
+      className="min-h-[20rem] flex flex-col md:mx-6 lg:h-[30rem] transition-all duration-1000 ease-in-out  bg-contain bg-center md:rounded-md overflow-hidden">
       <div className="flex flex-col items-start justify-end flex-1 pt-20 pb-6 pl-6 lg:pl-12 lg:pb-12 bg-gradient-to-r from-gray-950/90 via-gray-950/80 to-gray-950/60">
         <p className="font-semibold text-rose-500">{`${data.stats.rating} | ${data.stats.quality}`}</p>
 
@@ -39,9 +40,11 @@ function WatchCover({ data }) {
           </div>
         </div>
 
-        <button className="px-4 py-2 mt-6 text-xl font-bold rounded-lg bg-rose-500 text-gray-950">
+        <Link
+          to={`/watch/${epToWatch}`}
+          className="px-4 py-2 mt-6 text-xl font-bold rounded-lg bg-rose-500 text-gray-950">
           Watch Now
-        </button>
+        </Link>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function DetailsContainer({ header, data }) {
   return (
-    <div className="p-6 rounded-md md:bg-gray-500/5 md:outline outline-gray-500/20 outline-1">
+    <div className="flex-1 w-full p-6 xl:min-h-[20rem] rounded-md md:bg-gray-500/5 md:outline outline-gray-500/20 outline-1">
       <TextHeader text={header} />
 
       <div className="grid grid-cols-1 mt-4 lg:grid-cols-2 gap-y-2 gap-x-12">
@@ -35,7 +35,7 @@ function DetailsContainer({ header, data }) {
               {data.moreInfo.genres.map((item, index) => (
                 <Link
                   key={index}
-                  className="px-2 rounded bg-gray-500/5 outline-1 outline outline-gray-500/20">
+                  className="px-2 text-sm rounded bg-gray-500/5 outline-1 outline outline-gray-500/20">
                   {item}
                 </Link>
               ))}

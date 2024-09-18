@@ -8,7 +8,7 @@ function DetailsTagTruncate({ tag, desc }) {
     <div className="flex gap-2">
       <p className="font-semibold min-w-24 sm:min-w-28">{`${tag}:`}</p>
       <p
-        className={classNames("flex-1 font-light ", {
+        className={classNames(" font-light ", {
           truncate: !isExpanded,
         })}>
         {desc}
@@ -23,7 +23,7 @@ function DetailsTagTruncate({ tag, desc }) {
       {!isExpanded && (
         <span
           onClick={() => setIsExpanded(true)}
-          className="font-semibold cursor-pointer">
+          className="font-semibold cursor-pointer whitespace-nowrap">
           See more
         </span>
       )}

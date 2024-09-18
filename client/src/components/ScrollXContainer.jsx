@@ -3,7 +3,7 @@ import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import TextHeader from "./TextHeader";
 
-const ScrollYContainer = ({ data, header, isEpShow = false }) => {
+const ScrollXContainer = ({ data, header, isEpShow = false }) => {
   const scrollContainerRef = useRef(null);
 
   // Generic scroll function
@@ -36,28 +36,36 @@ const ScrollYContainer = ({ data, header, isEpShow = false }) => {
       <div
         ref={scrollContainerRef}
         className="flex mt-4 overflow-x-auto scroll-smooth scrollbar-hidden">
-        {data.map((item, index) => (
-          <Link
-            to={`/watch/${item.id}`}
-            key={index}
-            className="relative px-3 py-2 rounded-md max-w-44 group hover:bg-gray-500/10">
-            {isEpShow && (
-              <p className="absolute z-10 px-2 text-sm font-bold text-white bg-gray-950/70 backdrop-blur right-2 top-2 rounded-bl-md">{`Ep ${item.episodes.sub}`}</p>
-            )}
+        {data.length > 0 ? (
+          <>
+            {data.map((item, index) => (
+              <Link
+                to={`/watch/${item.id}`}
+                key={index}
+                className="relative px-3 py-2 rounded-md max-w-44 group hover:bg-gray-500/10">
+                {isEpShow && (
+                  <p className="absolute z-10 px-2 text-sm font-bold text-white bg-gray-950/70 backdrop-blur right-2 top-2 rounded-bl-md">{`Ep ${item.episodes.sub}`}</p>
+                )}
 
-            <div className="w-36 aspect-[3/4] overflow-hidden rounded-md">
-              <img
-                src={item.poster}
-                alt={item.id}
-                className="object-cover w-full h-full transition-all duration-200 group-hover:scale-105"
-              />
-            </div>
-            <p className="mt-2 font-semibold line-clamp-2">{item.name}</p>
-          </Link>
-        ))}
+                <div className="w-36 aspect-[3/4] overflow-hidden rounded-md">
+                  <img
+                    src={item.poster}
+                    alt={item.id}
+                    className="object-cover w-full h-full transition-all duration-200 group-hover:scale-105"
+                  />
+                </div>
+                <p className="mt-2 font-semibold line-clamp-2">{item.name}</p>
+              </Link>
+            ))}
+          </>
+        ) : (
+          <div className="px-4 py-2 rounded-md bg-gray-500/5 outline outline-1 outline-gray-500/20">
+            No Data Available
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default ScrollYContainer;
+export default ScrollXContainer;

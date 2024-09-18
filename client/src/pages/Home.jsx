@@ -1,41 +1,43 @@
 import React from "react";
 import HomeCover from "../components/HomeCover";
-import { HOME_DATA } from "../utils/DUMMY";
-import ScrollYContainer from "../components/ScrollYContainer";
+import ScrollXContainer from "../components/ScrollXContainer";
 import FourSectionContainer from "../components/FourSectionContainer";
 import Top10AnimeContainer from "../components/Top10AnimeContainer";
 import GenresContainer from "../components/GenresContainer";
+import { useAnimeContext } from "../contexts/AnimeContext";
 
 function Home() {
+  const { homeData } = useAnimeContext();
+
   return (
     <>
-      <HomeCover />
+      <HomeCover data={homeData.spotlightAnimes} />
 
       <div className="mt-12 md:mx-6">
         <div className="flex items-start gap-12 max-xl:flex-col">
           <div className="xl:w-[55rem] w-full flex flex-col gap-y-12">
-            <ScrollYContainer
+            <ScrollXContainer
               header={"Trending Series"}
-              data={HOME_DATA.trendingAnimes}
+              data={homeData.trendingAnimes}
             />
 
-            <ScrollYContainer
+            <ScrollXContainer
               header={"New Episodes"}
-              data={HOME_DATA.latestEpisodeAnimes}
+              data={homeData.latestEpisodeAnimes}
             />
 
             <FourSectionContainer
-              topAiringData={HOME_DATA.topAiringAnimes}
-              mostPopularData={HOME_DATA.mostPopularAnimes}
-              mostFavorite={HOME_DATA.mostFavoriteAnimes}
-              latestCompleted={HOME_DATA.latestCompletedAnimes}
+              topAiringData={homeData.topAiringAnimes}
+              mostPopularData={homeData.mostPopularAnimes}
+              mostFavorite={homeData.mostFavoriteAnimes}
+              latestCompleted={homeData.latestCompletedAnimes}
             />
           </div>
 
           <div className="flex flex-col flex-1 gap-12 lg:w-full max-md:mx-6">
-            <Top10AnimeContainer data={HOME_DATA.top10Animes} />
+            <Top10AnimeContainer data={homeData.top10Animes} />
 
-            <GenresContainer data={HOME_DATA.genres} />
+            <GenresContainer data={homeData.genres} />
           </div>
         </div>
       </div>

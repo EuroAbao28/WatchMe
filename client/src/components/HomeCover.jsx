@@ -1,18 +1,13 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
-import { FaInfoCircle, FaStar, FaPlay } from "react-icons/fa";
 import { IoPlay } from "react-icons/io5";
-import { PiFireFill } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { removeHtmlTags } from "../utils/Helpers";
-import { HOME_DATA } from "../utils/DUMMY";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { BsCcSquareFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa6";
 
-function HomeCover() {
-  const data = HOME_DATA.spotlightAnimes;
-
+function HomeCover({ data }) {
   const [currentData, setCurrentData] = useState(data[0]);
   const [fade, setFade] = useState(true);
 

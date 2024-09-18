@@ -1,29 +1,59 @@
 import React from "react";
 import WatchCover from "../components/WatchCover";
-import { HOME_DATA, INFO_DATA } from "../utils/DUMMY";
-import ScrollYContainer from "../components/ScrollYContainer";
+import ScrollXContainer from "../components/ScrollXContainer";
 import DetailsContainer from "../components/watch/DetailsContainer";
 import GenresContainer from "../components/GenresContainer";
+import { useGetInfo } from "../hooks/useAnimeHook";
+import { useParams, useSearchParams } from "react-router-dom";
+import LoadingScreen from "../components/LoadingScreen";
+import { useAnimeContext } from "../contexts/AnimeContext";
+import EpisodesContainer from "../components/watch/EpisodesContainer";
+import VideoPlayer from "../components/VideoPlayer";
 
 function Watch() {
+  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const episode = searchParams.get("ep");
+
+  const { homeData } = useAnimeContext();
+  const { infoData, isInfoLoading, isInfoError } = useGetInfo(id);
+
+  if (isInfoLoading) return <LoadingScreen errorHook={isInfoError} />;
+
+  if (infoData) console.log(infoData);
+
   return (
     <>
-      <WatchCover data={INFO_DATA.anime.info} />
+      {episode ? (
+        <VideoPlayer data={infoData} />
+      ) : (
+        <WatchCover
+          data={infoData.anime.info}
+          epToWatch={infoData.episodesData.episodes[0].episodeId}
+        />
+      )}
 
       <div className="flex flex-col mt-12 md:mx-6 gap-y-12">
-        <DetailsContainer header={"Details to"} data={INFO_DATA.anime} />
+        <div className="flex flex-row-reverse items-start gap-12 max-sm:gap-6 max-xl:flex-col">
+          <EpisodesContainer
+            header={"All Episodes"}
+            data={infoData.episodesData}
+          />
 
-        <ScrollYContainer
+          <DetailsContainer header={"Details to"} data={infoData.anime} />
+        </div>
+
+        <ScrollXContainer
           header={"Related Series"}
-          data={INFO_DATA.relatedAnimes}
+          data={infoData.relatedAnimes}
         />
 
-        <ScrollYContainer
+        <ScrollXContainer
           header={"Suggested for you"}
-          data={INFO_DATA.recommendedAnimes}
+          data={infoData.recommendedAnimes}
         />
 
-        <GenresContainer data={HOME_DATA.genres} isForSide={false} />
+        <GenresContainer data={homeData.genres} isForSide={false} />
       </div>
     </>
   );
