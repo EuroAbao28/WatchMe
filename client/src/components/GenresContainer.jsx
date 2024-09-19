@@ -17,7 +17,10 @@ function GenresContainer({ data, isForSide = true }) {
           }
         )}>
         {data.map((item, index) => (
-          <Link key={item} className="p-2 text-sm rounded hover:bg-gray-500/10">
+          <Link
+            to={`/genre/${item.toLowerCase().replace(/ /g, "-")}`}
+            key={item}
+            className="p-2 text-sm rounded hover:bg-gray-500/10">
             {item}
           </Link>
         ))}

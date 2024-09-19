@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
+  URL_BASE,
   URL_GET_EPISDOES,
+  URL_GET_GENRE,
   URL_GET_HOME,
   URL_GET_INFO,
   URL_GET_SERVER,
@@ -14,7 +16,7 @@ export const useGetHome = () => {
   const [isHomeError, setIsHomeError] = useState(null);
 
   const getHome = async () => {
-    setIsHomeLoading(true);
+    if (!isHomeLoading) setIsHomeLoading(true);
     try {
       const { data } = await axios.get(URL_GET_HOME);
 
@@ -40,7 +42,7 @@ export const useGetInfo = (id) => {
   const [isInfoError, setIsInfoError] = useState(null);
 
   const getInfo = async () => {
-    setIsInfoLoading(true);
+    if (!isInfoLoading) setIsInfoLoading(true);
     try {
       const { data } = await axios.get(URL_GET_INFO, {
         params: {
@@ -77,7 +79,7 @@ export const useGetStreamLink = (episodeId) => {
   const [isStreamError, setIsStreamError] = useState(null);
 
   const getStreamLink = async () => {
-    setIsStreamLoading(true);
+    if (!isStreamLoading) setIsStreamLoading(true);
     try {
       const { data } = await axios.get(URL_GET_STREAM_LINK, {
         params: {
@@ -107,4 +109,68 @@ export const useGetStreamLink = (episodeId) => {
   }, [episodeId]);
 
   return { streamData, isStreamLoading, isStreamError };
+};
+
+export const useGetCategory = (payload) => {
+  const [categoryData, setCategoryData] = useState([]);
+  const [isCategoryLoading, setIsCategoryLoading] = useState(true);
+  const [isCategoryError, setIsCategoryError] = useState(null);
+
+  const getCategory = async () => {
+    if (!isCategoryLoading) setIsCategoryLoading(true);
+    const { data } = await axios.get(`${URL_BASE}/${payload.category}`, {
+      params: {
+        page: payload.page,
+      },
+    });
+
+    setCategoryData(data);
+    setIsCategoryLoading(false);
+
+    console.log(data);
+    try {
+    } catch (error) {
+      setIsCategoryError(error);
+      setIsCategoryLoading(false);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCategory();
+  }, [payload.categoy, payload.page]);
+
+  return { categoryData, isCategoryLoading, isCategoryError };
+};
+
+export const useGetGenre = (payload) => {
+  const [genreData, setGenreData] = useState([]);
+  const [isGenreLoading, setIsGenreLoading] = useState(true);
+  const [isGenreError, setIsGenreError] = useState(null);
+
+  const getGenre = async () => {
+    if (!isGenreLoading) setIsGenreLoading(true);
+    const { data } = await axios.get(`${URL_GET_GENRE}/${payload.genre}`, {
+      params: {
+        page: payload.page,
+      },
+    });
+
+    setGenreData(data);
+    setIsGenreLoading(false);
+
+    console.log(data);
+    try {
+    } catch (error) {
+      setIsGenreError(error);
+      setIsGenreLoading(false);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getGenre();
+  }, [payload.genre, payload.page]);
+
+  return { genreData, isGenreLoading, isGenreError };
 };

@@ -3,7 +3,7 @@ import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import TextHeader from "./TextHeader";
 
-const ScrollXContainer = ({ data, header, isEpShow = false }) => {
+const ScrollXContainer = ({ data, header }) => {
   const scrollContainerRef = useRef(null);
 
   // Generic scroll function
@@ -42,11 +42,7 @@ const ScrollXContainer = ({ data, header, isEpShow = false }) => {
               <Link
                 to={`/watch/${item.id}`}
                 key={index}
-                className="relative px-3 py-2 rounded-md max-w-44 group hover:bg-gray-500/10">
-                {isEpShow && (
-                  <p className="absolute z-10 px-2 text-sm font-bold text-white bg-gray-950/70 backdrop-blur right-2 top-2 rounded-bl-md">{`Ep ${item.episodes.sub}`}</p>
-                )}
-
+                className="px-3 py-2 rounded-md max-w-44 group hover:bg-gray-500/10">
                 <div className="w-36 aspect-[3/4] overflow-hidden rounded-md">
                   <img
                     src={item.poster}

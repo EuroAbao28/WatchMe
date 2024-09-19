@@ -43,6 +43,14 @@ function Watch() {
           <DetailsContainer header={"Details"} data={infoData.anime} />
         </div>
 
+        {infoData.seasons.length > 0 && (
+          <ScrollXContainer
+            header={"Other Seasons"}
+            nameOrTitle="title"
+            data={infoData.seasons}
+          />
+        )}
+
         <ScrollXContainer
           header={"Related Series"}
           data={infoData.relatedAnimes}

@@ -5,7 +5,7 @@ import { FaMicrophone } from "react-icons/fa6";
 import { LuChevronsDown } from "react-icons/lu";
 import TextHeader from "./TextHeader";
 
-function VerticalListContainer({ header, data }) {
+function VerticalListContainer({ header, data, path }) {
   return (
     <div className="p-4 rounded-md bg-gray-500/5 outline outline-1 outline-gray-500/20">
       <TextHeader text={header} />
@@ -43,7 +43,7 @@ function VerticalListContainer({ header, data }) {
 
         <div className="absolute left-0 right-0 flex items-center justify-center -bottom-11">
           <div className="rounded-full bg-gray-950 ">
-            <Link onClick={() => setShowedItems((prev) => prev + 10)}>
+            <Link to={`/${path}`}>
               <div className="p-2 m-2 text-2xl transition-all rounded-full cursor-pointer hover:bg-gray-500/10 text-rose-500 active:scale-95 bg-gray-500/5 outline outline-1 outline-gray-500/20">
                 <LuChevronsDown />
               </div>

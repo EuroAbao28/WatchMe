@@ -74,9 +74,11 @@ function HomeCover({ data }) {
           </div>
         </div>
 
-        <button className="px-4 py-2 mt-6 text-xl font-bold rounded-lg bg-rose-500 text-gray-950">
+        <Link
+          to={`/watch/${currentData.id}`}
+          className="px-4 py-2 mt-6 text-xl font-bold rounded-lg bg-rose-500 text-gray-950">
           Watch Now
-        </button>
+        </Link>
       </div>
     </div>
   );

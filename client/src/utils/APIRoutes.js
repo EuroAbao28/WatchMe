@@ -12,3 +12,8 @@ export const URL_GET_STREAM_LINK =
 
 export const URL_GET_SERVER =
   "https://my-aniwatch-api-sigma.vercel.app/anime/servers";
+
+export const URL_GET_GENRE =
+  "https://my-aniwatch-api-sigma.vercel.app/anime/genre";
+
+export const URL_BASE = "https://my-aniwatch-api-sigma.vercel.app/anime";

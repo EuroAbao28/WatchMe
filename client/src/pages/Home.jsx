@@ -14,7 +14,7 @@ function Home() {
       <HomeCover data={homeData.spotlightAnimes} />
 
       <div className="mt-12 md:mx-6">
-        <div className="flex items-start gap-12 max-xl:flex-col">
+        <div className="flex gap-12 max-xl:flex-col ">
           <div className="xl:w-[55rem] w-full flex flex-col gap-y-12">
             <ScrollXContainer
               header={"Trending Series"}
