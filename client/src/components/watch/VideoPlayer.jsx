@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { useGetStreamLink } from "../hooks/useAnimeHook";
+import { useGetStreamLink } from "../../hooks/useAnimeHook";
 import ReactPlayer from "react-player";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { BsCcSquareFill } from "react-icons/bs";
@@ -20,7 +20,7 @@ function VideoPlayer({ data }) {
       src: track.file,
       srcLang: track.label,
       label: track.label,
-      default: track.default,
+      ...(track.default && { default: true }), // Conditionally add default
     }));
 
   console.log(streamData);
@@ -55,8 +55,8 @@ function VideoPlayer({ data }) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-12 mt-6">
-        <div className="p-6 mx-6 rounded-md bg-gray-500/5 outline outline-1 outline-gray-500/20">
+      <div className="flex flex-col gap-12 p-6 mx-6 mt-6 rounded-md bg-gray-500/5 outline outline-1 outline-gray-500/20 ">
+        <div className="">
           <div className="flex lg:items-center gap-x-6 max-sm:flex-col-reverse ">
             <h1 className="flex-1 text-lg font-semibold">
               {data.anime.info.name}
@@ -82,61 +82,11 @@ function VideoPlayer({ data }) {
               </button>
             </div>
           </div>
-
-          {streamData.episodeServer && (
-            <>
-              <div className="my-6 border-b border-gray-500/10"></div>
-
-              <div className="flex flex-wrap justify-around">
-                {streamData.episodeServer.sub &&
-                  streamData.episodeServer.sub.length > 0 && (
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-2 text-sm font-bold">
-                        <BsCcSquareFill />
-                        <p>SUB:</p>
-                      </div>
-                      <div className="flex gap-0 outline outline-1 outline-gray-500/20">
-                        {streamData.episodeServer.sub.map((item, index) => (
-                          <p
-                            key={index}
-                            className="px-2 py-1 text-sm font-semibold uppercase rounded-sm outline outline-1 outline-gray-500/20 bg-gray-500/5">
-                            {item.serverName}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                {streamData.episodeServer.dub &&
-                  streamData.episodeServer.dub.length > 0 && (
-                    <div className="flex items-center">
-                      <div className="flex items-center w-20 gap-2 text-sm font-bold">
-                        <FaMicrophone />
-                        <p>DUB:</p>
-                      </div>
-                      <div className="flex gap-4">
-                        {streamData.episodeServer.dub.map((item, index) => (
-                          <p
-                            key={index}
-                            className="px-2 py-1 text-sm font-semibold uppercase rounded-sm outline outline-1 outline-gray-500/20 bg-gray-500/5">
-                            {item.serverName}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                <div className="py-1 px2">Auto Play : On</div>
-
-                <div className="py-1 px2">Auto Skip Intro : On</div>
-              </div>
-            </>
-          )}
         </div>
 
         {/* {streamData.episodeServer && (
           <div className="p-6 mx-6 rounded-md outline outline-1 outline-gray-500/20 bg-gray-500/5">
-            <div className="flex flex-col gap-4">
+            <div className="flex gap-4 justify-evenly">
               {streamData.episodeServer.sub &&
                 streamData.episodeServer.sub.length > 0 && (
                   <div className="flex items-center ">
@@ -148,13 +98,15 @@ function VideoPlayer({ data }) {
                       {streamData.episodeServer.sub.map((item, index) => (
                         <p
                           key={index}
-                          className="px-2 py-1 font-semibold uppercase rounded outline outline-1 outline-gray-500/20 bg-gray-500/5">
+                          className="px-2 py-1 text-sm font-semibold uppercase rounded-sm outline outline-1 outline-gray-500/20 bg-gray-500/5">
                           {item.serverName}
                         </p>
                       ))}
                     </div>
                   </div>
                 )}
+
+              <div className="border-l border-gray-500/50"></div>
 
               {streamData.episodeServer.dub &&
                 streamData.episodeServer.dub.length > 0 && (
@@ -167,7 +119,7 @@ function VideoPlayer({ data }) {
                       {streamData.episodeServer.dub.map((item, index) => (
                         <p
                           key={index}
-                          className="px-2 py-1 font-semibold uppercase rounded outline outline-1 outline-gray-500/20 bg-gray-500/5">
+                          className="px-2 py-1 text-sm font-semibold uppercase rounded-sm outline outline-1 outline-gray-500/20 bg-gray-500/5">
                           {item.serverName}
                         </p>
                       ))}

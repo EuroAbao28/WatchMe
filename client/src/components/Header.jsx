@@ -5,8 +5,7 @@ import { LuChevronLeft } from "react-icons/lu";
 import { Link, useLocation, useParams } from "react-router-dom";
 
 function Header() {
-  const { episodeId } = useParams();
-  const { search } = useLocation();
+  const { id } = useParams();
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
@@ -32,7 +31,15 @@ function Header() {
   }, [isSearchExpanded]);
 
   return (
-    <header className="sticky top-0 z-50 flex justify-between w-full px-6 py-4 transition-all shadow-sm bg-gray-950 shadow-gray-950">
+    <header
+      className={classNames(
+        " top-0 z-50 flex justify-between w-full px-6 py-4 transition-all shadow-sm ",
+        {
+          "bg-gray-950 shadow-gray-950 ": scrollPosition > 0 && id,
+          "max-sm:fixed": id,
+          "sticky bg-gray-950": !id,
+        }
+      )}>
       <Link
         to={"/"}
         className={classNames("flex cursor-pointer items-center gap-2", {

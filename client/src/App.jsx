@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Layout from "./components/Layout";
 import Watch from "./pages/Watch";
 import { AnimeProvider } from "./contexts/AnimeContext";
-import VideoPlayer from "./components/VideoPlayer";
+import VideoPlayer from "./components/watch/VideoPlayer";
 
 function App() {
   return (

@@ -20,8 +20,6 @@ function DetailsContainer({ header, data }) {
           <DetailsTag tag={"Premiered"} desc={data.moreInfo.premiered} />
 
           <DetailsTag tag={"Status"} desc={data.moreInfo.status} />
-
-          <DetailsTagTruncate tag={"Synopsis"} desc={data.info.description} />
         </div>
 
         <div className="flex flex-col gap-2">
@@ -29,9 +27,13 @@ function DetailsContainer({ header, data }) {
 
           <DetailsTag tag={"Rating"} desc={data.moreInfo.malscore} />
 
+          <DetailsTag tag={"Studios"} desc={data.moreInfo.studios} />
+
+          <DetailsTag tag={"Producers"} desc={data.moreInfo.producers} />
+
           <div className="flex gap-2 ">
             <p className="font-semibold min-w-24 sm:min-w-28">Genre:</p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {data.moreInfo.genres.map((item, index) => (
                 <Link
                   key={index}
@@ -41,10 +43,6 @@ function DetailsContainer({ header, data }) {
               ))}
             </div>
           </div>
-
-          <DetailsTag tag={"Studios"} desc={data.moreInfo.studios} />
-
-          <DetailsTag tag={"Producers"} desc={data.moreInfo.producers} />
         </div>
       </div>
     </div>

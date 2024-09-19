@@ -15,7 +15,7 @@ function DetailsTagTruncate({ tag, desc }) {
         {isExpanded && (
           <span
             onClick={() => setIsExpanded(false)}
-            className="ml-4 font-semibold cursor-pointer whitespace-nowrap">
+            className="ml-4 cursor-pointer whitespace-nowrap">
             See less
           </span>
         )}
@@ -23,7 +23,7 @@ function DetailsTagTruncate({ tag, desc }) {
       {!isExpanded && (
         <span
           onClick={() => setIsExpanded(true)}
-          className="font-semibold cursor-pointer whitespace-nowrap">
+          className="cursor-pointer whitespace-nowrap">
           See more
         </span>
       )}

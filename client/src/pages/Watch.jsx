@@ -8,7 +8,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import LoadingScreen from "../components/LoadingScreen";
 import { useAnimeContext } from "../contexts/AnimeContext";
 import EpisodesContainer from "../components/watch/EpisodesContainer";
-import VideoPlayer from "../components/VideoPlayer";
+import VideoPlayer from "../components/watch/VideoPlayer";
 
 function Watch() {
   const { id } = useParams();
@@ -28,7 +28,7 @@ function Watch() {
         <VideoPlayer data={infoData} />
       ) : (
         <WatchCover
-          data={infoData.anime.info}
+          data={infoData.anime}
           epToWatch={infoData.episodesData.episodes[0].episodeId}
         />
       )}
@@ -40,7 +40,7 @@ function Watch() {
             data={infoData.episodesData}
           />
 
-          <DetailsContainer header={"Details to"} data={infoData.anime} />
+          <DetailsContainer header={"Details"} data={infoData.anime} />
         </div>
 
         <ScrollXContainer

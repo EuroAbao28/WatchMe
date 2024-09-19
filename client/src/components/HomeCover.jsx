@@ -37,7 +37,7 @@ function HomeCover({ data }) {
         backgroundImage: `url(${currentData.poster})`,
       }}
       className={classNames(
-        "min-h-[20rem] flex flex-col md:mx-6 lg:h-[30rem] transition-all duration-1000 ease-in-out xl:h-[35rem] bg-cover bg-center md:rounded-md overflow-hidden",
+        "min-h-[20rem] flex flex-col md:mx-6 lg:h-[30rem] transition-all duration-1000 ease-in-out bg-cover bg-center md:rounded-md overflow-hidden",
         {
           "opacity-100": fade,
           "opacity-0": !fade,
@@ -50,7 +50,7 @@ function HomeCover({ data }) {
           {currentData.name}
         </h1>
 
-        <p className="max-lg:hidden w-[70%] line-clamp-3 mt-4">
+        <p className="max-lg:hidden w-[70%] line-clamp-3 overflow-y-auto mt-4 scrollbar-hidden">
           {removeHtmlTags(currentData.description)}
         </p>
 
