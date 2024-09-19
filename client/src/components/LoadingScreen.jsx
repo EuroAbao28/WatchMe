@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function LoadingScreen({ errorHook }) {
   return (
@@ -9,8 +10,16 @@ function LoadingScreen({ errorHook }) {
           <h1 className="text-xl font-semibold">WatchMe</h1>
         </div>
         {errorHook ? (
-          <div className="flex h-10 mx-6 text-center opacity-30 ">
-            <p>Something went wrong. Please try again later.</p>
+          <div className="flex flex-col items-center justify-center mx-6 ">
+            <p className="opacity-50">
+              Something went wrong. Please try again later.
+            </p>
+
+            <Link
+              to={"/"}
+              className="px-4 py-1 mt-6 rounded hover:bg-gray-500/10 text-gray-300/50 bg-gray-500/5 outline outline-1 outline-gray-500/20 ">
+              Go to Home
+            </Link>
           </div>
         ) : (
           <span className="h-10 loading loading-dots loading-lg text-rose-500"></span>

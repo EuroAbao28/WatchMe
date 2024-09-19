@@ -42,7 +42,13 @@ const ScrollXContainer = ({ data, header }) => {
               <Link
                 to={`/watch/${item.id}`}
                 key={index}
-                className="px-3 py-2 rounded-md max-w-44 group hover:bg-gray-500/10">
+                className="relative px-3 py-2 rounded-md max-w-44 group hover:bg-gray-500/10">
+                {item.rating && item.rating.includes("18+") && (
+                  <p className="absolute z-10 px-1 text-sm font-semibold bg-orange-600 rounded right-4 top-3">
+                    18+
+                  </p>
+                )}
+
                 <div className="w-36 aspect-[3/4] overflow-hidden rounded-md">
                   <img
                     src={item.poster}

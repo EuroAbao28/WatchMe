@@ -117,7 +117,6 @@ export const useGetCategory = (payload) => {
   const [isCategoryError, setIsCategoryError] = useState(null);
 
   const getCategory = async () => {
-    if (!isCategoryLoading) setIsCategoryLoading(true);
     const { data } = await axios.get(`${URL_BASE}/${payload.category}`, {
       params: {
         page: payload.page,
@@ -149,7 +148,6 @@ export const useGetGenre = (payload) => {
   const [isGenreError, setIsGenreError] = useState(null);
 
   const getGenre = async () => {
-    if (!isGenreLoading) setIsGenreLoading(true);
     const { data } = await axios.get(`${URL_GET_GENRE}/${payload.genre}`, {
       params: {
         page: payload.page,

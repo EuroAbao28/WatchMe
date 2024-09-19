@@ -18,7 +18,8 @@ function Watch() {
   const { homeData } = useAnimeContext();
   const { infoData, isInfoLoading, isInfoError } = useGetInfo(id);
 
-  if (isInfoLoading) return <LoadingScreen errorHook={isInfoError} />;
+  if (isInfoLoading || isInfoError)
+    return <LoadingScreen errorHook={isInfoError} />;
 
   if (infoData) console.log(infoData);
 
@@ -29,7 +30,10 @@ function Watch() {
       ) : (
         <WatchCover
           data={infoData.anime}
-          epToWatch={infoData.episodesData.episodes[0].episodeId}
+          epToWatch={
+            infoData.episodesData.episodes.length > 0 &&
+            infoData.episodesData.episodes[0].episodeId
+          }
         />
       )}
 

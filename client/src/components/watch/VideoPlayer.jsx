@@ -3,8 +3,6 @@ import { useLocation } from "react-router-dom";
 import { useGetStreamLink } from "../../hooks/useAnimeHook";
 import ReactPlayer from "react-player";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
-import { BsCcSquareFill } from "react-icons/bs";
-import { FaMicrophone } from "react-icons/fa6";
 
 function VideoPlayer({ data }) {
   const location = useLocation();

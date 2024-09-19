@@ -1,6 +1,5 @@
 import React from "react";
 import DetailsTag from "./DetailsTag";
-import DetailsTagTruncate from "./DetailsTagTruncate";
 import TextHeader from "../TextHeader";
 import { Link } from "react-router-dom";
 

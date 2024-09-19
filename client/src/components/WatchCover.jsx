@@ -1,6 +1,5 @@
 import React from "react";
 import { IoPlay } from "react-icons/io5";
-import { removeHtmlTags } from "../utils/Helpers";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { BsCcSquareFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa6";
@@ -35,7 +34,7 @@ function WatchCover({ data, epToWatch }) {
             {data.info.name}
           </h1>
 
-          <p className="mt-4 overflow-y-auto line-clamp-3 lg:h-[7.4rem] sm:w-[90%] scrollbar-hidden">
+          <p className="mt-4 overflow-y-auto line-clamp-3 lg:max-h-[7.4rem] sm:w-[90%] scrollbar-hidden">
             {data.info.description}
           </p>
 
@@ -59,11 +58,13 @@ function WatchCover({ data, epToWatch }) {
             </div>
           </div>
 
-          <Link
-            to={`/watch/${epToWatch}`}
-            className="px-4 py-2 mt-8 text-xl font-bold rounded-lg bg-rose-500 text-gray-950">
-            Watch Now
-          </Link>
+          {epToWatch && (
+            <Link
+              to={`/watch/${epToWatch}`}
+              className="px-4 py-2 mt-8 text-xl font-bold rounded-lg bg-rose-500 text-gray-950">
+              Watch Now
+            </Link>
+          )}
         </div>
       </div>
     </div>

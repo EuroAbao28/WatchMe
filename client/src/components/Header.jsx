@@ -2,10 +2,12 @@ import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { LuChevronLeft } from "react-icons/lu";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 
 function Header() {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const episode = searchParams.get("ep");
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
@@ -33,11 +35,11 @@ function Header() {
   return (
     <header
       className={classNames(
-        " top-0 z-50 flex justify-between w-full px-6 py-4 transition-all shadow-sm ",
+        "z-50  flex justify-between w-full px-6 py-4 transition-all shadow-sm ",
         {
-          "bg-gray-950 shadow-gray-950 ": scrollPosition > 0 && id,
-          "max-sm:fixed": id,
-          "sticky bg-gray-950": !id,
+          "sticky top-0 bg-gray-950": !id || episode,
+          "fixed sm:sticky top-0 sm:bg-gray-950": id,
+          "max-sm:bg-gray-950": scrollPosition > 0 && !episode,
         }
       )}>
       <Link
