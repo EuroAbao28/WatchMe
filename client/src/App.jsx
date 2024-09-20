@@ -6,6 +6,7 @@ import { AnimeProvider } from "./contexts/AnimeContext";
 import VideoPlayer from "./components/watch/VideoPlayer";
 import Category from "./pages/Category";
 import Genre from "./pages/Genre";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               </Route>
               <Route path=":category" element={<Category />} />
               <Route path="genre/:genre" element={<Genre />} />
+              <Route path="search" element={<Search />} />
             </Route>
           </Routes>
         </Router>

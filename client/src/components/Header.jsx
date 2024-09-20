@@ -2,16 +2,32 @@ import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { LuChevronLeft } from "react-icons/lu";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const episode = searchParams.get("ep");
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
   const inputRef = useRef(null);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+
+    setSearchInput("");
+    setIsSearchExpanded(false);
+
+    navigate(`/search?q=${encodeURIComponent(searchInput)}`);
+  };
 
   // Function to handle the scroll event
   const handleScroll = () => {
@@ -28,6 +44,7 @@ function Header() {
     };
   }, []);
 
+  // auto focus to input field
   useEffect(() => {
     if (isSearchExpanded) inputRef.current.focus();
   }, [isSearchExpanded]);
@@ -44,9 +61,12 @@ function Header() {
       )}>
       <Link
         to={"/"}
-        className={classNames("flex cursor-pointer items-center gap-2", {
-          "max-md:hidden": isSearchExpanded,
-        })}>
+        className={classNames(
+          "flex cursor-pointer items-center gap-2 focus:outline-none",
+          {
+            "max-md:hidden": isSearchExpanded,
+          }
+        )}>
         <p className="text-2xl italic font-black text-rose-500">WM</p>
         <h1 className="text-xl font-semibold">WatchMe</h1>
       </Link>
@@ -56,7 +76,7 @@ function Header() {
         {!isSearchExpanded && (
           <div
             onClick={() => setIsSearchExpanded(!isSearchExpanded)}
-            className="p-4 rounded-full md:hidden outline outline-1 outline-gray-500/20 sm:bg-gray-500/5 text-gray-300/50">
+            className="p-4 rounded-full cursor-pointer md:hidden outline outline-1 hover:bg-gray-500/10 hover:text-rose-500 outline-gray-500/20 sm:bg-gray-500/5 text-gray-300/50">
             <FiSearch />
           </div>
         )}
@@ -69,32 +89,44 @@ function Header() {
               <LuChevronLeft className="text-xl" />
             </button>
 
-            <form className="flex items-center flex-1 rounded-r-full focus-within:outline-gray-500/40 outline outline-1 outline-gray-500/20 bg-gray-500/5">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="flex items-center flex-1 rounded-r-full focus-within:outline-gray-500/40 outline outline-1 outline-gray-500/20 bg-gray-500/5">
               <input
                 ref={inputRef}
                 type="text"
                 placeholder="Search anime"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 className="w-full pl-4 pr-2 bg-transparent placeholder-gray-300/50 focus:outline-none"
               />
 
-              <div className="p-4 rounded-full text-gray-300/50">
+              <button
+                type="submit"
+                className="p-4 rounded-full cursor-pointer hover:text-rose-500 text-gray-300/50 hover:bg-gray-500/10">
                 <FiSearch />
-              </div>
+              </button>
             </form>
           </section>
         )}
       </>
 
-      <form className="flex items-center rounded-full md:w-[40%] lg:w-[30%] xl:w-[25%] max-md:hidden outline outline-1 focus-within:outline-2 outline-gray-500/20 bg-gray-500/5">
+      <form
+        onSubmit={handleSearchSubmit}
+        className="flex items-center rounded-full md:w-[40%] lg:w-[30%] xl:w-[25%] max-md:hidden outline outline-1 focus-within:outline-2 outline-gray-500/20 bg-gray-500/5">
         <input
           type="text"
           placeholder="Search anime"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           className="w-full pl-4 pr-2 bg-transparent focus:outline-none placeholder-gray-300/50"
         />
 
-        <div className="p-4 rounded-full text-gray-300/50">
+        <button
+          type="submit"
+          className="p-4 rounded-full cursor-pointer hover:text-rose-500 hover:bg-gray-500/10 text-gray-300/50">
           <FiSearch />
-        </div>
+        </button>
       </form>
     </header>
   );

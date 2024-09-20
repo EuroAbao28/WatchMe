@@ -7,6 +7,7 @@ import GenresContainer from "../components/GenresContainer";
 import { BsCcSquareFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa6";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import classNames from "classnames";
 
 function Genre() {
   const { genre } = useParams();
@@ -44,20 +45,34 @@ function Genre() {
                 to={`/watch/${item.id}`}
                 key={index}
                 className="relative px-2 py-2 rounded-md sm:px-3 group hover:bg-gray-500/10">
-                {item.rating && item.rating.includes("18+") && (
-                  <p className="absolute z-10 px-1 text-sm font-semibold bg-orange-600 rounded right-3 sm:right-4 top-3">
-                    18+
-                  </p>
-                )}
+                {page === genreData.currentPage &&
+                  item.rating &&
+                  item.rating.includes("18+") && (
+                    <p className="absolute z-10 px-1 text-sm font-semibold bg-orange-600 rounded right-4 top-3">
+                      18+
+                    </p>
+                  )}
 
                 <div className="aspect-[3/4] overflow-hidden rounded-md">
-                  <img
-                    src={item.poster}
-                    alt={item.name}
-                    className="w-full h-full transition-all group-hover:scale-105"
-                  />
+                  {page === genreData.currentPage ? (
+                    <img
+                      src={item.poster}
+                      alt={item.name}
+                      className="w-full h-full transition-all group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <span className="loading loading-spinner loading-sm text-gray-300/50"></span>
+                    </div>
+                  )}
                 </div>
-                <p className="line-clamp-2">{item.name}</p>
+                <p
+                  className={classNames("line-clamp-2", {
+                    "opacity-100": page === genreData.currentPage,
+                    "opacity-0": page !== genreData.currentPage,
+                  })}>
+                  {item.name}
+                </p>
               </Link>
             ))}
           </div>

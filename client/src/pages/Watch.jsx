@@ -65,7 +65,9 @@ function Watch() {
           data={infoData.recommendedAnimes}
         />
 
-        <GenresContainer data={homeData.genres} isForSide={false} />
+        <div className="max-md:mx-6">
+          <GenresContainer data={homeData.genres} isForSide={false} />
+        </div>
       </div>
     </>
   );

@@ -53,7 +53,7 @@ function VideoPlayer({ data }) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-12 p-6 rounded-md sm:mx-6 sm:mt-6 bg-gray-500/5 md:outline outline-1 outline-gray-500/20 ">
+      <div className="flex flex-col gap-12 p-6 rounded-md sm:mx-6 sm:mt-6 bg-gray-500/5 sm:outline outline-1 outline-gray-500/20 ">
         <div className="">
           <div className="flex lg:items-center gap-x-6 max-sm:flex-col-reverse ">
             <h1 className="flex-1 text-lg font-semibold">

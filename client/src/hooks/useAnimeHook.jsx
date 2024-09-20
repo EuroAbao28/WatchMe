@@ -6,6 +6,7 @@ import {
   URL_GET_GENRE,
   URL_GET_HOME,
   URL_GET_INFO,
+  URL_GET_SEARCH_RESULT,
   URL_GET_SERVER,
   URL_GET_STREAM_LINK,
 } from "../utils/APIRoutes";
@@ -171,4 +172,36 @@ export const useGetGenre = (payload) => {
   }, [payload.genre, payload.page]);
 
   return { genreData, isGenreLoading, isGenreError };
+};
+
+export const useGetSearchResult = () => {
+  const [searchResultData, setSearchResultData] = useState({});
+  const [isSearchResultLoading, setIsSearchResultLoading] = useState(false);
+  const [isSearchResultError, setIsSearchResultError] = useState(null);
+
+  const getSearchResult = async (params) => {
+    if (!isSearchResultLoading) setIsSearchResultLoading(true);
+
+    console.log("PARAMS: ", params);
+
+    try {
+      const { data } = await axios.get(URL_GET_SEARCH_RESULT, { params });
+
+      setSearchResultData(data);
+      setIsSearchResultLoading(false);
+
+      console.log("SEARCH RESULT: ", data);
+    } catch (error) {
+      setIsSearchResultError(error);
+      setIsSearchResultLoading(false);
+      console.log(error);
+    }
+  };
+
+  return {
+    getSearchResult,
+    searchResultData,
+    isSearchResultLoading,
+    isSearchResultError,
+  };
 };

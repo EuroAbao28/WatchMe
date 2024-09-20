@@ -35,6 +35,7 @@ function DetailsContainer({ header, data }) {
             <div className="flex flex-wrap items-center gap-2">
               {data.moreInfo.genres.map((item, index) => (
                 <Link
+                  to={`/genre/${item.toLowerCase().replace(/ /g, "-")}`}
                   key={index}
                   className="px-2 text-sm rounded bg-gray-500/5 outline-1 outline outline-gray-500/20">
                   {item}

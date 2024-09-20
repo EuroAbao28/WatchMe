@@ -6,6 +6,7 @@ import TextHeader from "../components/TextHeader";
 import Top10AnimeContainer from "../components/Top10AnimeContainer";
 import GenresContainer from "../components/GenresContainer";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import classNames from "classnames";
 
 function Category() {
   const { category } = useParams();
@@ -43,20 +44,34 @@ function Category() {
                 to={`/watch/${item.id}`}
                 key={index}
                 className="relative px-2 py-2 rounded-md sm:px-3 group hover:bg-gray-500/10">
-                {item.rating && item.rating.includes("18+") && (
-                  <p className="absolute z-10 px-1 text-sm font-semibold bg-orange-600 rounded right-4 top-3">
-                    18+
-                  </p>
-                )}
+                {page === categoryData.currentPage &&
+                  item.rating &&
+                  item.rating.includes("18+") && (
+                    <p className="absolute z-10 px-1 text-sm font-semibold bg-orange-600 rounded right-4 top-3">
+                      18+
+                    </p>
+                  )}
 
                 <div className="aspect-[3/4] overflow-hidden rounded-md">
-                  <img
-                    src={item.poster}
-                    alt={item.name}
-                    className="w-full h-full transition-all group-hover:scale-105"
-                  />
+                  {page === categoryData.currentPage ? (
+                    <img
+                      src={item.poster}
+                      alt={item.name}
+                      className="w-full h-full transition-all group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <span className="loading loading-spinner loading-sm text-gray-300/50"></span>
+                    </div>
+                  )}
                 </div>
-                <p className="line-clamp-2">{item.name}</p>
+                <p
+                  className={classNames("line-clamp-2", {
+                    "opacity-100": page === categoryData.currentPage,
+                    "opacity-0": page !== categoryData.currentPage,
+                  })}>
+                  {item.name}
+                </p>
               </Link>
             ))}
           </div>
