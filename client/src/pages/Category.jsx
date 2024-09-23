@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useGetCategory } from "../hooks/useAnimeHook";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import LoadingScreen from "../components/LoadingScreen";
 import TextHeader from "../components/TextHeader";
 import Top10AnimeContainer from "../components/Top10AnimeContainer";
@@ -10,26 +10,46 @@ import classNames from "classnames";
 
 function Category() {
   const { category } = useParams();
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = searchParams.get("page");
+
+  const [page, setPage] = useState(Number(currentPage));
 
   const { categoryData, isCategoryLoading, isCategoryError } = useGetCategory({
     category,
     page,
   });
 
+  const handleScrollUp = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   const handlePrevPage = () => {
-    if (page === categoryData.currentPage) {
-      if (page > 1) setPage((prev) => prev - 1);
+    if (page > 1) {
+      setPage((prev) => prev - 1);
+      setSearchParams({ page: page - 1 });
+
+      setTimeout(() => {
+        handleScrollUp();
+      }, 100);
     }
   };
 
   const handleNextPage = () => {
-    if (page === categoryData.currentPage) {
-      if (categoryData.hasNextPage) setPage((prev) => prev + 1);
+    if (categoryData.hasNextPage) {
+      setPage((prev) => prev + 1);
+      setSearchParams({ page: page + 1 });
+
+      setTimeout(() => {
+        handleScrollUp();
+      }, 100);
     }
   };
 
-  if (isCategoryLoading || isCategoryError)
+  if ((!categoryData.animes && isCategoryLoading) || isCategoryError)
     return <LoadingScreen errorHook={isCategoryError} />;
 
   return (
@@ -44,7 +64,7 @@ function Category() {
                 to={`/watch/${item.id}`}
                 key={index}
                 className="relative px-2 py-2 rounded-md sm:px-3 group hover:bg-gray-500/10">
-                {page === categoryData.currentPage &&
+                {!isCategoryLoading &&
                   item.rating &&
                   item.rating.includes("18+") && (
                     <p className="absolute z-10 px-1 text-sm font-semibold bg-orange-600 rounded right-4 top-3">
@@ -53,7 +73,7 @@ function Category() {
                   )}
 
                 <div className="aspect-[3/4] overflow-hidden rounded-md">
-                  {page === categoryData.currentPage ? (
+                  {!isCategoryLoading ? (
                     <img
                       src={item.poster}
                       alt={item.name}
@@ -67,8 +87,8 @@ function Category() {
                 </div>
                 <p
                   className={classNames("line-clamp-2", {
-                    "opacity-100": page === categoryData.currentPage,
-                    "opacity-0": page !== categoryData.currentPage,
+                    "opacity-100": !isCategoryLoading,
+                    "opacity-0": isCategoryLoading,
                   })}>
                   {item.name}
                 </p>
@@ -79,7 +99,14 @@ function Category() {
           <div className="flex items-center justify-center gap-12 mt-6">
             <button
               onClick={handlePrevPage}
-              className="px-4 py-1.5 text-xl transition-all rounded text-rose-500 hover:bg-gray-500/10 bg-gray-500/5 outline outline-1 outline-gray-500/20 active:scale-95">
+              disabled={isCategoryLoading}
+              className={classNames(
+                "px-4 py-1.5 text-xl transition-all rounded  hover:bg-gray-500/10 bg-gray-500/5  outline outline-1 outline-gray-500/20 active:scale-95",
+                {
+                  "text-rose-500": !isCategoryLoading,
+                  "text-gray-500/20 cursor-wait": isCategoryLoading,
+                }
+              )}>
               <LuChevronLeft />
             </button>
 
@@ -87,7 +114,14 @@ function Category() {
 
             <button
               onClick={handleNextPage}
-              className="px-4 py-1.5 text-xl transition-all rounded text-rose-500 hover:bg-gray-500/10 bg-gray-500/5 outline outline-1 outline-gray-500/20 active:scale-95">
+              disabled={isCategoryLoading}
+              className={classNames(
+                "px-4 py-1.5 text-xl transition-all rounded  hover:bg-gray-500/10 bg-gray-500/5  outline outline-1 outline-gray-500/20 active:scale-95",
+                {
+                  "text-rose-500": !isCategoryLoading,
+                  "text-gray-500/20 cursor-wait": isCategoryLoading,
+                }
+              )}>
               <LuChevronRight />
             </button>
           </div>

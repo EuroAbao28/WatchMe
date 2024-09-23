@@ -12,8 +12,8 @@ function WatchCover({ data, epToWatch }) {
       style={{
         backgroundImage: `url(${data.info.poster})`,
       }}
-      className="min-h-[20rem] max-sm:min-h-screen flex flex-col md:mx-6 lg:h-[30rem] transition-all duration-1000 ease-in-out  bg-cover bg-center md:rounded-md overflow-hidden">
-      <div className="flex items-center justify-center flex-1 gap-16 md:gap-12 sm:px-6 sm:py-6 md:py-12 md:px-12 sm:gap-6 max-sm:flex-col bg-gray-950/30 bg-gradient-to-r backdrop-blur-md from-gray-950/90 via-gray-950/80 to-gray-950/60">
+      className="min-h-[20rem] max-sm:min-h-screen flex flex-col md:mx-6 lg:min-h-[30rem] transition-all duration-1000 ease-in-out  bg-cover bg-center md:rounded-xl ">
+      <div className="flex items-center justify-center flex-1 gap-16 md:gap-12 sm:px-6 sm:py-6 md:py-12 md:px-12 sm:gap-6 max-sm:flex-col bg-gray-950/30 md:rounded-md bg-gradient-to-r backdrop-blur-md from-gray-950/90 via-gray-950/80 to-gray-950/60">
         <img
           src={data.info.poster}
           alt={data.info.name}

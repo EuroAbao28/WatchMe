@@ -1,32 +1,124 @@
-import React from "react";
+import React, { useState } from "react";
 import WatchCover from "../components/WatchCover";
 import ScrollXContainer from "../components/ScrollXContainer";
 import DetailsContainer from "../components/watch/DetailsContainer";
 import GenresContainer from "../components/GenresContainer";
 import { useGetInfo } from "../hooks/useAnimeHook";
-import { useParams, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import LoadingScreen from "../components/LoadingScreen";
 import { useAnimeContext } from "../contexts/AnimeContext";
 import EpisodesContainer from "../components/watch/EpisodesContainer";
 import VideoPlayer from "../components/watch/VideoPlayer";
+import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { BsCcSquareFill } from "react-icons/bs";
+import { FaMicrophone } from "react-icons/fa6";
+import classNames from "classnames";
 
 function Watch() {
   const { id } = useParams();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   const episode = searchParams.get("ep");
+  const episodeId = location.pathname.split("/watch/")[1] + location.search;
 
   const { homeData } = useAnimeContext();
   const { infoData, isInfoLoading, isInfoError } = useGetInfo(id);
 
+  const [isGetStreamLoading, setIsGetStreamLoading] = useState(null);
+
+  // getting the isStreamLoading from VideoPlayer.jsx
+  const handleGetSreamLoading = (state) => {
+    setIsGetStreamLoading(state);
+  };
+
+  const handleChangeEpisode = (direction) => {
+    const currentEpIndex = infoData.episodesData.episodes.findIndex(
+      (episode) => episode.episodeId === episodeId
+    );
+
+    if (direction === "prev") {
+      if (currentEpIndex > 0) {
+        navigate(
+          `/watch/${
+            infoData.episodesData.episodes[currentEpIndex - 1].episodeId
+          }`
+        );
+      }
+    }
+
+    if (direction === "next") {
+      if (currentEpIndex + 1 < infoData.episodesData.totalEpisodes) {
+        navigate(
+          `/watch/${
+            infoData.episodesData.episodes[currentEpIndex + 1].episodeId
+          }`
+        );
+      }
+    }
+  };
+
   if (isInfoLoading || isInfoError)
     return <LoadingScreen errorHook={isInfoError} />;
-
-  if (infoData) console.log(infoData);
 
   return (
     <>
       {episode ? (
-        <VideoPlayer data={infoData} />
+        <>
+          <VideoPlayer
+            data={infoData}
+            isGetStreamLoading={handleGetSreamLoading}
+          />
+
+          <div className="flex flex-1 p-6 md:mt-6 md:rounded-md md:mx-6 lg:items-center gap-x-12 max-lg:flex-col-reverse bg-gray-500/5 sm:outline outline-1 outline-gray-500/20 ">
+            <h1 className="flex-1 text-lg font-semibold">
+              {infoData.anime.info.name}
+            </h1>
+
+            <div className="hidden mt-6 mb-4 border-b border-gray-500/10 max-lg:block"></div>
+
+            <div className="flex items-center justify-between gap-6">
+              <button
+                onClick={() => handleChangeEpisode("prev")}
+                disabled={isGetStreamLoading}
+                className={classNames(
+                  "px-4 py-1.5 text-xl transition-all rounded  hover:bg-gray-500/10 bg-gray-500/5  outline outline-1 outline-gray-500/20 active:scale-95",
+                  {
+                    "text-rose-500": !isGetStreamLoading,
+                    "text-gray-500/20 cursor-wait": isGetStreamLoading,
+                  }
+                )}>
+                <LuChevronLeft />
+              </button>
+              <p className="font-semibold">
+                {`Ep. ${
+                  infoData.episodesData.episodes.filter(
+                    (item) => item.episodeId === episodeId
+                  )[0].number
+                }`}
+              </p>
+
+              <button
+                onClick={() => handleChangeEpisode("next")}
+                disabled={isGetStreamLoading}
+                className={classNames(
+                  "px-4 py-1.5 text-xl transition-all rounded  hover:bg-gray-500/10 bg-gray-500/5  outline outline-1 outline-gray-500/20 active:scale-95",
+                  {
+                    "text-rose-500": !isGetStreamLoading,
+                    "text-gray-500/20 cursor-wait": isGetStreamLoading,
+                  }
+                )}>
+                <LuChevronRight />
+              </button>
+            </div>
+          </div>
+        </>
       ) : (
         <WatchCover
           data={infoData.anime}
@@ -37,15 +129,65 @@ function Watch() {
         />
       )}
 
-      <div className="flex flex-col mt-12 md:mx-6 gap-y-12">
-        <div className="flex flex-row-reverse items-start gap-12 max-sm:gap-6 max-xl:flex-col">
+      <div className="flex flex-col mt-6 md:mx-6 gap-y-12">
+        <div className="flex flex-row-reverse items-start gap-6 max-sm:gap-6 max-xl:flex-col">
           <EpisodesContainer
             header={"All Episodes"}
             data={infoData.episodesData}
           />
 
-          <DetailsContainer header={"Details"} data={infoData.anime} />
+          <div className="flex flex-col flex-1 w-full gap-6 ">
+            {episode && (
+              <div className="flex overflow-hidden rounded-md max-md:mx-6 max-md:flex-col-reverse outline outline-1 outline-gray-500/20 bg-gray-500/5">
+                <p className="w-[30%] max-md:w-full text-sm font-semibold flex justify-center items-center p-4 md:p-6 bg-gray-500/5 text-center">
+                  If current server doesn't work please try other servers.
+                </p>
+
+                <div className="flex flex-col flex-1 gap-4 py-4">
+                  <div className="flex items-center gap-4 px-4 md:gap-8 md:px-8">
+                    <div className="flex items-center gap-2 text-xs font-bold">
+                      <BsCcSquareFill className="text-rose-500" />
+                      <p>SUB :</p>
+                    </div>
+                    <div className="flex items-center gap-3 md:gap-4">
+                      <p className="px-2 py-1 text-sm font-bold rounded-sm md:px-4 outline outline-1 outline-gray-500/20 bg-gray-500/5">
+                        HD-1
+                      </p>
+
+                      <p className="px-2 py-1 text-sm font-bold rounded-sm md:px-4 outline outline-1 outline-gray-500/20 bg-gray-500/5">
+                        HD-1
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border-b border-gray-500/20"></div>
+
+                  <div className="flex items-center gap-4 px-4 md:gap-8 md:px-8">
+                    <div className="flex items-center gap-2 text-xs font-bold">
+                      <FaMicrophone className="text-rose-500" />
+                      <p>DUB :</p>
+                    </div>
+                    <div className="flex items-center gap-3 md:gap-4">
+                      <p className="px-2 py-1 text-sm font-bold rounded-sm md:px-4 outline outline-1 outline-gray-500/20 bg-gray-500/5">
+                        HD-1
+                      </p>
+
+                      <p className="px-2 py-1 text-sm font-bold rounded-sm md:px-4 outline outline-1 outline-gray-500/20 bg-gray-500/5">
+                        HD-1
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <DetailsContainer header={"Details"} data={infoData.anime} />
+          </div>
         </div>
+
+        {/* ANIMES GRID */}
+
+        <div className="border-b border-gray-500/10 max-sm:mx-6"></div>
 
         {infoData.seasons.length > 0 && (
           <ScrollXContainer

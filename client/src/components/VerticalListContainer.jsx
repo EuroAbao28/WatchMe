@@ -43,7 +43,7 @@ function VerticalListContainer({ header, data, path }) {
 
         <div className="absolute left-0 right-0 flex items-center justify-center -bottom-11">
           <div className="rounded-full bg-gray-950 ">
-            <Link to={`/${path}`}>
+            <Link to={`/${path}?page=1`}>
               <div className="p-2 m-2 text-2xl transition-all rounded-full cursor-pointer hover:bg-gray-500/10 text-rose-500 active:scale-95 bg-gray-500/5 outline outline-1 outline-gray-500/20">
                 <LuChevronsDown />
               </div>

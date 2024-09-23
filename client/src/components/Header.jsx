@@ -23,10 +23,15 @@ function Header() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
 
-    setSearchInput("");
-    setIsSearchExpanded(false);
+    if (!searchInput) return;
 
-    navigate(`/search?q=${encodeURIComponent(searchInput)}`);
+    setSearchInput("");
+
+    navigate(`/search?q=${encodeURIComponent(searchInput)}&page=1`);
+
+    setTimeout(() => {
+      setIsSearchExpanded(false);
+    }, 0.45);
   };
 
   // Function to handle the scroll event
@@ -68,7 +73,7 @@ function Header() {
           }
         )}>
         <p className="text-2xl italic font-black text-rose-500">WM</p>
-        <h1 className="text-xl font-semibold">WatchMe</h1>
+        <h1 className="text-xl font-semibold mt-0.5">WatchMe</h1>
       </Link>
 
       {/* for small screen */}

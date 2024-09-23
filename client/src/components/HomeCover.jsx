@@ -37,13 +37,13 @@ function HomeCover({ data }) {
         backgroundImage: `url(${currentData.poster})`,
       }}
       className={classNames(
-        "min-h-[20rem] flex flex-col md:mx-6 lg:h-[30rem] transition-all duration-1000 ease-in-out bg-cover bg-center md:rounded-md overflow-hidden",
+        "min-h-[20rem] flex flex-col md:mx-6 lg:min-h-[30rem] transition-all duration-1000 ease-in-out bg-cover bg-center md:rounded-xl ",
         {
           "opacity-100": fade,
           "opacity-0": !fade,
         }
       )}>
-      <div className="flex flex-col items-start justify-end flex-1 pt-20 pb-6 pl-6 lg:pl-12 lg:pb-12 bg-gradient-to-r from-gray-950/90 via-gray-950/80 to-gray-950/60">
+      <div className="flex flex-col items-start justify-end flex-1 pt-20 pb-6 pl-6 lg:pl-12 lg:pb-12 md:rounded-md bg-gradient-to-r from-gray-950/90 via-gray-950/80 to-gray-950/60">
         <p className="font-semibold text-rose-500">{`#${currentData.rank} Spotlight`}</p>
 
         <h1 className=" text-3xl font-extrabold w-[90%] sm:w-[70%] md:w-[65%] lg:w-[50%]">

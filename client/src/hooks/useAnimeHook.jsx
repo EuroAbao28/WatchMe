@@ -18,11 +18,14 @@ export const useGetHome = () => {
 
   const getHome = async () => {
     if (!isHomeLoading) setIsHomeLoading(true);
+    if (isHomeError) setIsHomeError(null);
     try {
       const { data } = await axios.get(URL_GET_HOME);
 
       setHomeData(data);
       setIsHomeLoading(false);
+
+      // console.log("HOME DATA: ", data);
     } catch (error) {
       setIsHomeError(error);
       setIsHomeLoading(false);
@@ -60,6 +63,8 @@ export const useGetInfo = (id) => {
 
       setInfoData(combinedData);
       setIsInfoLoading(false);
+
+      console.log("INFO DATA: ", combinedData);
     } catch (error) {
       setIsInfoError(error);
       setIsInfoLoading(false);
@@ -81,6 +86,7 @@ export const useGetStreamLink = (episodeId) => {
 
   const getStreamLink = async () => {
     if (!isStreamLoading) setIsStreamLoading(true);
+    if (isStreamError) setIsStreamError(null);
     try {
       const { data } = await axios.get(URL_GET_STREAM_LINK, {
         params: {
@@ -98,6 +104,8 @@ export const useGetStreamLink = (episodeId) => {
 
       setStreamData(combinedData);
       setIsStreamLoading(false);
+
+      console.log("STREAM DATA: ", combinedData);
     } catch (error) {
       setIsStreamError(error);
       setIsStreamLoading(false);
@@ -118,6 +126,7 @@ export const useGetCategory = (payload) => {
   const [isCategoryError, setIsCategoryError] = useState(null);
 
   const getCategory = async () => {
+    if (!isCategoryLoading) setIsCategoryLoading(true);
     const { data } = await axios.get(`${URL_BASE}/${payload.category}`, {
       params: {
         page: payload.page,
@@ -127,7 +136,7 @@ export const useGetCategory = (payload) => {
     setCategoryData(data);
     setIsCategoryLoading(false);
 
-    console.log(data);
+    console.log("CATEGORY DATA: ", data);
     try {
     } catch (error) {
       setIsCategoryError(error);
@@ -149,6 +158,7 @@ export const useGetGenre = (payload) => {
   const [isGenreError, setIsGenreError] = useState(null);
 
   const getGenre = async () => {
+    if (!isGenreLoading) setIsGenreLoading(true);
     const { data } = await axios.get(`${URL_GET_GENRE}/${payload.genre}`, {
       params: {
         page: payload.page,
@@ -158,7 +168,8 @@ export const useGetGenre = (payload) => {
     setGenreData(data);
     setIsGenreLoading(false);
 
-    console.log(data);
+    console.log("GENRE DATA: ", data);
+
     try {
     } catch (error) {
       setIsGenreError(error);
@@ -190,7 +201,7 @@ export const useGetSearchResult = () => {
       setSearchResultData(data);
       setIsSearchResultLoading(false);
 
-      console.log("SEARCH RESULT: ", data);
+      console.log("SEARCH RESULT DATA: ", data);
     } catch (error) {
       setIsSearchResultError(error);
       setIsSearchResultLoading(false);

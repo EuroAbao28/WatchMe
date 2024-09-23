@@ -7,7 +7,7 @@ function LoadingScreen({ errorHook }) {
       <div className="flex flex-col items-center justify-center gap-4 ">
         <div className="flex items-center gap-2 ">
           <p className="text-2xl italic font-black text-rose-500">WM</p>
-          <h1 className="text-xl font-semibold">WatchMe</h1>
+          <h1 className="text-xl font-semibold mt-0.5">WatchMe</h1>
         </div>
         {errorHook ? (
           <div className="flex flex-col items-center justify-center mx-6 ">
