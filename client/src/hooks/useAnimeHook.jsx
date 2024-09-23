@@ -10,6 +10,7 @@ import {
   URL_GET_SERVER,
   URL_GET_STREAM_LINK,
 } from "../utils/APIRoutes";
+import { useAnimeContext } from "../contexts/AnimeContext";
 
 export const useGetHome = () => {
   const [homeData, setHomeData] = useState({});
@@ -64,7 +65,7 @@ export const useGetInfo = (id) => {
       setInfoData(combinedData);
       setIsInfoLoading(false);
 
-      console.log("INFO DATA: ", combinedData);
+      // console.log("INFO DATA: ", combinedData);
     } catch (error) {
       setIsInfoError(error);
       setIsInfoLoading(false);
@@ -79,24 +80,33 @@ export const useGetInfo = (id) => {
   return { infoData, isInfoLoading, isInfoError };
 };
 
-export const useGetStreamLink = (episodeId) => {
+export const useGetStreamLink = (payload) => {
   const [streamData, setStreamData] = useState({});
   const [isStreamLoading, setIsStreamLoading] = useState(true);
   const [isStreamError, setIsStreamError] = useState(null);
+  const { setCurrentVideoData } = useAnimeContext();
 
   const getStreamLink = async () => {
+    // console.log("STREAM PARAMS: ", payload);
+
     if (!isStreamLoading) setIsStreamLoading(true);
     if (isStreamError) setIsStreamError(null);
+
     try {
-      const { data } = await axios.get(URL_GET_STREAM_LINK, {
+      const episodeServer = await axios.get(URL_GET_SERVER, {
         params: {
-          id: episodeId,
+          episodeId: payload.episodeId,
         },
       });
 
-      const episodeServer = await axios.get(URL_GET_SERVER, {
+      const { data } = await axios.get(URL_GET_STREAM_LINK, {
         params: {
-          episodeId: episodeId,
+          id: payload.episodeId,
+          server:
+            payload.server ||
+            episodeServer.data.sub[0].serverName ||
+            episodeServer.data.dub[0].serverName,
+          category: payload.category || "sub",
         },
       });
 
@@ -105,7 +115,10 @@ export const useGetStreamLink = (episodeId) => {
       setStreamData(combinedData);
       setIsStreamLoading(false);
 
-      console.log("STREAM DATA: ", combinedData);
+      // set the data to context
+      setCurrentVideoData(combinedData);
+
+      // console.log("STREAM DATA: ", combinedData);
     } catch (error) {
       setIsStreamError(error);
       setIsStreamLoading(false);
@@ -115,7 +128,7 @@ export const useGetStreamLink = (episodeId) => {
 
   useEffect(() => {
     getStreamLink();
-  }, [episodeId]);
+  }, [payload.episodeId, payload.server, payload.category]);
 
   return { streamData, isStreamLoading, isStreamError };
 };
@@ -127,6 +140,7 @@ export const useGetCategory = (payload) => {
 
   const getCategory = async () => {
     if (!isCategoryLoading) setIsCategoryLoading(true);
+
     const { data } = await axios.get(`${URL_BASE}/${payload.category}`, {
       params: {
         page: payload.page,
@@ -136,7 +150,7 @@ export const useGetCategory = (payload) => {
     setCategoryData(data);
     setIsCategoryLoading(false);
 
-    console.log("CATEGORY DATA: ", data);
+    // console.log("CATEGORY DATA: ", data);
     try {
     } catch (error) {
       setIsCategoryError(error);
@@ -159,6 +173,7 @@ export const useGetGenre = (payload) => {
 
   const getGenre = async () => {
     if (!isGenreLoading) setIsGenreLoading(true);
+
     const { data } = await axios.get(`${URL_GET_GENRE}/${payload.genre}`, {
       params: {
         page: payload.page,
@@ -168,7 +183,7 @@ export const useGetGenre = (payload) => {
     setGenreData(data);
     setIsGenreLoading(false);
 
-    console.log("GENRE DATA: ", data);
+    // console.log("GENRE DATA: ", data);
 
     try {
     } catch (error) {
@@ -193,7 +208,7 @@ export const useGetSearchResult = () => {
   const getSearchResult = async (params) => {
     if (!isSearchResultLoading) setIsSearchResultLoading(true);
 
-    console.log("PARAMS: ", params);
+    // console.log("PARAMS: ", params);
 
     try {
       const { data } = await axios.get(URL_GET_SEARCH_RESULT, { params });
@@ -201,7 +216,7 @@ export const useGetSearchResult = () => {
       setSearchResultData(data);
       setIsSearchResultLoading(false);
 
-      console.log("SEARCH RESULT DATA: ", data);
+      // console.log("SEARCH RESULT DATA: ", data);
     } catch (error) {
       setIsSearchResultError(error);
       setIsSearchResultLoading(false);

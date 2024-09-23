@@ -16,7 +16,7 @@ function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
   const params = Object.fromEntries(searchParams.entries());
 
-  console.log("PARAMS: ", params);
+  // console.log("PARAMS: ", params);
 
   const {
     getSearchResult,
@@ -36,7 +36,7 @@ function Search() {
     genres: params.genres ? params.genres.split(",") : [],
   });
 
-  console.log("FILTER: ", filterParams);
+  // console.log("FILTER: ", filterParams);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -82,7 +82,7 @@ function Search() {
     setFilterParams(pageResetFilterParams);
     setSearchParams({ ...hasValue, q: params.q });
 
-    console.log("HAS VALUE: ", hasValue);
+    // console.log("HAS VALUE: ", hasValue);
   };
 
   const handleCloseFilter = () => {
@@ -144,6 +144,9 @@ function Search() {
       genres: filterParams.genres.join(","),
     });
   }, [searchParams]);
+
+  if (isSearchResultError)
+    return <LoadingScreen errorHook={isSearchResultError} />;
 
   return (
     <div className="mt-6 md:mx-6">

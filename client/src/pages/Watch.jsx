@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WatchCover from "../components/WatchCover";
 import ScrollXContainer from "../components/ScrollXContainer";
 import DetailsContainer from "../components/watch/DetailsContainer";
@@ -28,12 +28,31 @@ function Watch() {
   const episode = searchParams.get("ep");
   const episodeId = location.pathname.split("/watch/")[1] + location.search;
 
-  const { homeData } = useAnimeContext();
+  const { homeData, currentVideoData, setCurrentVideoData } = useAnimeContext();
   const { infoData, isInfoLoading, isInfoError } = useGetInfo(id);
 
-  const [isGetStreamLoading, setIsGetStreamLoading] = useState(null);
+  const [currentServerCategory, setCurrentServerCategory] = useState({
+    server: "hd-1",
+    category: "sub",
+  });
+
+  // for refreshing  the server used below
+  useEffect(() => {
+    setCurrentVideoData({});
+  }, [episodeId]);
+
+  // reset the server to hd-1
+  useEffect(() => {
+    return () => {
+      setCurrentServerCategory({
+        server: "hd-1",
+        category: "sub",
+      });
+    };
+  }, [id]);
 
   // getting the isStreamLoading from VideoPlayer.jsx
+  const [isGetStreamLoading, setIsGetStreamLoading] = useState(null);
   const handleGetSreamLoading = (state) => {
     setIsGetStreamLoading(state);
   };
@@ -64,6 +83,10 @@ function Watch() {
     }
   };
 
+  const handleChangeServer = (data) => {
+    setCurrentServerCategory(data);
+  };
+
   if (isInfoLoading || isInfoError)
     return <LoadingScreen errorHook={isInfoError} />;
 
@@ -73,6 +96,7 @@ function Watch() {
         <>
           <VideoPlayer
             data={infoData}
+            currentServerCategory={currentServerCategory}
             isGetStreamLoading={handleGetSreamLoading}
           />
 
@@ -145,36 +169,72 @@ function Watch() {
 
                 <div className="flex flex-col flex-1 gap-4 py-4">
                   <div className="flex items-center gap-4 px-4 md:gap-8 md:px-8">
-                    <div className="flex items-center gap-2 text-xs font-bold">
+                    <div className="flex items-center gap-2 py-2 text-xs font-bold">
                       <BsCcSquareFill className="text-rose-500" />
-                      <p>SUB :</p>
+                      <p className="text-nowrap">SUB :</p>
                     </div>
-                    <div className="flex items-center gap-3 md:gap-4">
-                      <p className="px-2 py-1 text-sm font-bold rounded-sm md:px-4 outline outline-1 outline-gray-500/20 bg-gray-500/5">
-                        HD-1
-                      </p>
-
-                      <p className="px-2 py-1 text-sm font-bold rounded-sm md:px-4 outline outline-1 outline-gray-500/20 bg-gray-500/5">
-                        HD-1
-                      </p>
+                    <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                      {currentVideoData && (
+                        <>
+                          {currentVideoData.episodeServer?.sub.map(
+                            (item, index) => (
+                              <p
+                                key={index}
+                                onClick={() =>
+                                  handleChangeServer({
+                                    server: item.serverName,
+                                    category: "sub",
+                                  })
+                                }
+                                className={`px-2 py-1 active:scale-95 transition-all cursor-pointer text-sm font-bold uppercase rounded-sm text-nowrap md:px-4 outline outline-1  ${
+                                  item.serverName ===
+                                    currentServerCategory.server &&
+                                  currentServerCategory.category === "sub"
+                                    ? "outline-rose-500/20 bg-rose-500/5 text-rose-500"
+                                    : "outline-gray-500/20 bg-gray-500/5 hover:bg-gray-500/10"
+                                }`}>
+                                {item.serverName}
+                              </p>
+                            )
+                          )}
+                        </>
+                      )}
                     </div>
                   </div>
 
                   <div className="border-b border-gray-500/20"></div>
 
                   <div className="flex items-center gap-4 px-4 md:gap-8 md:px-8">
-                    <div className="flex items-center gap-2 text-xs font-bold">
+                    <div className="flex items-center gap-2 py-2 text-xs font-bold">
                       <FaMicrophone className="text-rose-500" />
-                      <p>DUB :</p>
+                      <p className="text-nowrap">DUB :</p>
                     </div>
-                    <div className="flex items-center gap-3 md:gap-4">
-                      <p className="px-2 py-1 text-sm font-bold rounded-sm md:px-4 outline outline-1 outline-gray-500/20 bg-gray-500/5">
-                        HD-1
-                      </p>
-
-                      <p className="px-2 py-1 text-sm font-bold rounded-sm md:px-4 outline outline-1 outline-gray-500/20 bg-gray-500/5">
-                        HD-1
-                      </p>
+                    <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                      {currentVideoData && (
+                        <>
+                          {currentVideoData.episodeServer?.dub.map(
+                            (item, index) => (
+                              <p
+                                key={index}
+                                onClick={() =>
+                                  handleChangeServer({
+                                    server: item.serverName,
+                                    category: "dub",
+                                  })
+                                }
+                                className={`px-2 active:scale-95 transition-all py-1 cursor-pointer text-sm font-bold uppercase rounded-sm text-nowrap md:px-4 outline outline-1  ${
+                                  item.serverName ===
+                                    currentServerCategory.server &&
+                                  currentServerCategory.category === "dub"
+                                    ? "outline-rose-500/20 bg-rose-500/5 text-rose-500"
+                                    : "outline-gray-500/20 hover:bg-gray-500/10 bg-gray-500/5"
+                                }`}>
+                                {item.serverName}
+                              </p>
+                            )
+                          )}
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
