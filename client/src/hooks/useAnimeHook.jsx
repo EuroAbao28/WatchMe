@@ -30,7 +30,7 @@ export const useGetHome = () => {
     } catch (error) {
       setIsHomeError(error);
       setIsHomeLoading(false);
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -69,7 +69,7 @@ export const useGetInfo = (id) => {
     } catch (error) {
       setIsInfoError(error);
       setIsInfoLoading(false);
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -89,16 +89,11 @@ export const useGetStreamLink = (payload) => {
   const getStreamLink = async () => {
     // console.log("STREAM PARAMS: ", payload);
 
+    setCurrentVideoData({});
     if (!isStreamLoading) setIsStreamLoading(true);
     if (isStreamError) setIsStreamError(null);
 
     try {
-      const episodeServer = await axios.get(URL_GET_SERVER, {
-        params: {
-          episodeId: payload.episodeId,
-        },
-      });
-
       const { data } = await axios.get(URL_GET_STREAM_LINK, {
         params: {
           id: payload.episodeId,
@@ -110,19 +105,17 @@ export const useGetStreamLink = (payload) => {
         },
       });
 
-      const combinedData = { ...data, episodeServer: episodeServer.data };
-
-      setStreamData(combinedData);
+      setStreamData(data);
       setIsStreamLoading(false);
 
       // set the data to context
-      setCurrentVideoData(combinedData);
+      setCurrentVideoData(data);
 
       // console.log("STREAM DATA: ", combinedData);
     } catch (error) {
       setIsStreamError(error);
       setIsStreamLoading(false);
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -131,6 +124,39 @@ export const useGetStreamLink = (payload) => {
   }, [payload.episodeId, payload.server, payload.category]);
 
   return { streamData, isStreamLoading, isStreamError };
+};
+
+export const useGetServer = () => {
+  const [serverData, setServerData] = useState({});
+  const [isServerLoading, setIsServerLoading] = useState(true);
+  const [isServerError, setIsServerError] = useState(null);
+
+  const getServer = async (episodeId) => {
+    // console.log("STREAM PARAMS: ", payload);
+
+    setServerData({});
+    if (!isServerLoading) setIsServerLoading(true);
+    if (isServerError) setIsServerError(null);
+
+    try {
+      const { data } = await axios.get(URL_GET_SERVER, {
+        params: {
+          episodeId: episodeId,
+        },
+      });
+
+      setServerData(data);
+      setIsServerLoading(false);
+
+      // console.log("SERVER DATA: ", data);
+    } catch (error) {
+      setIsServerError(error);
+      setIsServerLoading(false);
+      // console.log(error);
+    }
+  };
+
+  return { getServer, serverData, isServerLoading, isServerError };
 };
 
 export const useGetCategory = (payload) => {
@@ -155,7 +181,7 @@ export const useGetCategory = (payload) => {
     } catch (error) {
       setIsCategoryError(error);
       setIsCategoryLoading(false);
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -189,7 +215,7 @@ export const useGetGenre = (payload) => {
     } catch (error) {
       setIsGenreError(error);
       setIsGenreLoading(false);
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -220,7 +246,7 @@ export const useGetSearchResult = () => {
     } catch (error) {
       setIsSearchResultError(error);
       setIsSearchResultLoading(false);
-      console.log(error);
+      // console.log(error);
     }
   };
 

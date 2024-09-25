@@ -1,11 +1,27 @@
 import React from "react";
 import TextHeader from "../TextHeader";
 import classNames from "classnames";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAnimeContext } from "../../contexts/AnimeContext";
 
 function EpisodesContainer({ header, data }) {
+  const navigate = useNavigate();
   const location = useLocation();
   const episodeId = location.pathname.split("/watch/")[1] + location.search;
+
+  const { currentVideoData, setCurrentServerCategory } = useAnimeContext();
+
+  const handleChangeEpisode = (episodeId, e) => {
+    e.preventDefault();
+
+    if (!currentVideoData.anilistID)
+      setCurrentServerCategory({
+        server: "hd-1",
+        category: "sub",
+      });
+
+    navigate(`/watch/${episodeId}`);
+  };
 
   return (
     <div className="p-6 md:bg-gray-500/5 flex flex-col xl:h-[20rem] max-h-[20rem] rounded-md w-full xl:w-[20rem] md:outline outline-1 outline-gray-500/20">
@@ -20,6 +36,9 @@ function EpisodesContainer({ header, data }) {
             {data.episodes.map((item, index) => (
               <Link
                 to={`/watch/${item.episodeId}`}
+                onClick={(e) => {
+                  handleChangeEpisode(item.episodeId, e);
+                }}
                 key={item.episodeId}
                 className={classNames(
                   "flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-sm hover:bg-gray-500/10 bg-gray-500/5 outline outline-1 outline-gray-500/20",

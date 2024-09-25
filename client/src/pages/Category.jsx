@@ -34,7 +34,7 @@ function Category() {
 
       setTimeout(() => {
         handleScrollUp();
-      }, 100);
+      }, 200);
     }
   };
 
@@ -45,7 +45,7 @@ function Category() {
 
       setTimeout(() => {
         handleScrollUp();
-      }, 100);
+      }, 200);
     }
   };
 

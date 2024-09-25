@@ -7,6 +7,10 @@ const AnimeContext = createContext();
 export const AnimeProvider = ({ children }) => {
   const { homeData, isHomeLoading, isHomeError } = useGetHome();
   const [currentVideoData, setCurrentVideoData] = useState({});
+  const [currentServerCategory, setCurrentServerCategory] = useState({
+    server: "hd-1",
+    category: "sub",
+  });
 
   if (isHomeLoading) return <LoadingScreen errorHook={isHomeError} />;
 
@@ -18,6 +22,8 @@ export const AnimeProvider = ({ children }) => {
         isHomeError,
         currentVideoData,
         setCurrentVideoData,
+        currentServerCategory,
+        setCurrentServerCategory,
       }}>
       {children}
     </AnimeContext.Provider>

@@ -3,7 +3,7 @@ import WatchCover from "../components/WatchCover";
 import ScrollXContainer from "../components/ScrollXContainer";
 import DetailsContainer from "../components/watch/DetailsContainer";
 import GenresContainer from "../components/GenresContainer";
-import { useGetInfo } from "../hooks/useAnimeHook";
+import { useGetInfo, useGetServer } from "../hooks/useAnimeHook";
 import {
   useLocation,
   useNavigate,
@@ -28,17 +28,19 @@ function Watch() {
   const episode = searchParams.get("ep");
   const episodeId = location.pathname.split("/watch/")[1] + location.search;
 
-  const { homeData, currentVideoData, setCurrentVideoData } = useAnimeContext();
+  const {
+    homeData,
+    currentVideoData,
+    currentServerCategory,
+    setCurrentServerCategory,
+  } = useAnimeContext();
   const { infoData, isInfoLoading, isInfoError } = useGetInfo(id);
+  const { getServer, serverData } = useGetServer(episodeId);
 
-  const [currentServerCategory, setCurrentServerCategory] = useState({
-    server: "hd-1",
-    category: "sub",
-  });
-
-  // for refreshing  the server used below
   useEffect(() => {
-    setCurrentVideoData({});
+    if (episode) {
+      getServer(episodeId);
+    }
   }, [episodeId]);
 
   // reset the server to hd-1
@@ -58,6 +60,12 @@ function Watch() {
   };
 
   const handleChangeEpisode = (direction) => {
+    if (!currentVideoData.anilistID)
+      setCurrentServerCategory({
+        server: "hd-1",
+        category: "sub",
+      });
+
     const currentEpIndex = infoData.episodesData.episodes.findIndex(
       (episode) => episode.episodeId === episodeId
     );
@@ -96,7 +104,6 @@ function Watch() {
         <>
           <VideoPlayer
             data={infoData}
-            currentServerCategory={currentServerCategory}
             isGetStreamLoading={handleGetSreamLoading}
           />
 
@@ -174,29 +181,27 @@ function Watch() {
                       <p className="text-nowrap">SUB :</p>
                     </div>
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
-                      {currentVideoData && (
+                      {serverData.sub && (
                         <>
-                          {currentVideoData.episodeServer?.sub.map(
-                            (item, index) => (
-                              <p
-                                key={index}
-                                onClick={() =>
-                                  handleChangeServer({
-                                    server: item.serverName,
-                                    category: "sub",
-                                  })
-                                }
-                                className={`px-2 py-1 active:scale-95 transition-all cursor-pointer text-sm font-bold uppercase rounded-sm text-nowrap md:px-4 outline outline-1  ${
-                                  item.serverName ===
-                                    currentServerCategory.server &&
-                                  currentServerCategory.category === "sub"
-                                    ? "outline-rose-500/20 bg-rose-500/5 text-rose-500"
-                                    : "outline-gray-500/20 bg-gray-500/5 hover:bg-gray-500/10"
-                                }`}>
-                                {item.serverName}
-                              </p>
-                            )
-                          )}
+                          {serverData?.sub.map((item, index) => (
+                            <p
+                              key={index}
+                              onClick={() =>
+                                handleChangeServer({
+                                  server: item.serverName,
+                                  category: "sub",
+                                })
+                              }
+                              className={`px-2 py-1 active:scale-95 transition-all cursor-pointer text-sm font-bold uppercase rounded-sm text-nowrap md:px-4 outline outline-1  ${
+                                item.serverName ===
+                                  currentServerCategory.server &&
+                                currentServerCategory.category === "sub"
+                                  ? "outline-rose-500/20 bg-rose-500/5 text-rose-500"
+                                  : "outline-gray-500/20 bg-gray-500/5 hover:bg-gray-500/10"
+                              }`}>
+                              {item.serverName}
+                            </p>
+                          ))}
                         </>
                       )}
                     </div>
@@ -210,29 +215,27 @@ function Watch() {
                       <p className="text-nowrap">DUB :</p>
                     </div>
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
-                      {currentVideoData && (
+                      {serverData.dub && (
                         <>
-                          {currentVideoData.episodeServer?.dub.map(
-                            (item, index) => (
-                              <p
-                                key={index}
-                                onClick={() =>
-                                  handleChangeServer({
-                                    server: item.serverName,
-                                    category: "dub",
-                                  })
-                                }
-                                className={`px-2 active:scale-95 transition-all py-1 cursor-pointer text-sm font-bold uppercase rounded-sm text-nowrap md:px-4 outline outline-1  ${
-                                  item.serverName ===
-                                    currentServerCategory.server &&
-                                  currentServerCategory.category === "dub"
-                                    ? "outline-rose-500/20 bg-rose-500/5 text-rose-500"
-                                    : "outline-gray-500/20 hover:bg-gray-500/10 bg-gray-500/5"
-                                }`}>
-                                {item.serverName}
-                              </p>
-                            )
-                          )}
+                          {serverData?.dub.map((item, index) => (
+                            <p
+                              key={index}
+                              onClick={() =>
+                                handleChangeServer({
+                                  server: item.serverName,
+                                  category: "dub",
+                                })
+                              }
+                              className={`px-2 active:scale-95 transition-all py-1 cursor-pointer text-sm font-bold uppercase rounded-sm text-nowrap md:px-4 outline outline-1  ${
+                                item.serverName ===
+                                  currentServerCategory.server &&
+                                currentServerCategory.category === "dub"
+                                  ? "outline-rose-500/20 bg-rose-500/5 text-rose-500"
+                                  : "outline-gray-500/20 hover:bg-gray-500/10 bg-gray-500/5"
+                              }`}>
+                              {item.serverName}
+                            </p>
+                          ))}
                         </>
                       )}
                     </div>

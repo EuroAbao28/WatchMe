@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useGetStreamLink } from "../../hooks/useAnimeHook";
 import ReactPlayer from "react-player";
+import { useAnimeContext } from "../../contexts/AnimeContext";
 
-function VideoPlayer({ currentServerCategory, isGetStreamLoading }) {
+function VideoPlayer({ isGetStreamLoading }) {
   const location = useLocation();
   const episodeId = location.pathname.split("/watch/")[1] + location.search;
+
+  const { currentServerCategory } = useAnimeContext();
 
   const { streamData, isStreamLoading, isStreamError } = useGetStreamLink({
     episodeId,

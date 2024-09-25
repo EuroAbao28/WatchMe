@@ -106,7 +106,7 @@ function Search() {
         top: 0,
         behavior: "smooth",
       });
-    }, 100);
+    }, 200);
   };
 
   const handleNextPage = () => {

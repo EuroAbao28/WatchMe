@@ -35,7 +35,7 @@ function Genre() {
 
       setTimeout(() => {
         handleScrollUp();
-      }, 100);
+      }, 200);
     }
   };
 
@@ -46,7 +46,7 @@ function Genre() {
 
       setTimeout(() => {
         handleScrollUp();
-      }, 100);
+      }, 200);
     }
   };
 
