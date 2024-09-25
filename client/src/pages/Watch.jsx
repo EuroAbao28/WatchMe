@@ -92,6 +92,13 @@ function Watch() {
   };
 
   const handleChangeServer = (data) => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, 200);
+
     setCurrentServerCategory(data);
   };
 

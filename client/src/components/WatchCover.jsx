@@ -7,6 +7,15 @@ import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 
 function WatchCover({ data, epToWatch }) {
+  const handleScrollUp = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, 200);
+  };
+
   return (
     <div
       style={{
@@ -61,6 +70,7 @@ function WatchCover({ data, epToWatch }) {
           {epToWatch && (
             <Link
               to={`/watch/${epToWatch}`}
+              onClick={handleScrollUp}
               className="px-4 py-2 mt-8 text-xl font-bold rounded-lg bg-rose-500 text-gray-950">
               Watch Now
             </Link>

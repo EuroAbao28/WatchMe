@@ -11,6 +11,15 @@ function EpisodesContainer({ header, data }) {
 
   const { currentVideoData, setCurrentServerCategory } = useAnimeContext();
 
+  const handleScrollUp = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, 200);
+  };
+
   const handleChangeEpisode = (episodeId, e) => {
     e.preventDefault();
 
@@ -19,6 +28,8 @@ function EpisodesContainer({ header, data }) {
         server: "hd-1",
         category: "sub",
       });
+
+    handleScrollUp();
 
     navigate(`/watch/${episodeId}`);
   };
