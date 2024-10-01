@@ -49,10 +49,9 @@ export const AnimeProvider = ({ children }) => {
 
   useEffect(() => {
     console.log("SOCKET USE EFFECT RUNNING");
+    getActivityStats();
 
-    socket.on("updateVisits", () => {
-      getActivityStats();
-    });
+    socket.on("updateVisits", () => {});
 
     socket.on("activeUsers", (activeUsers) => {
       setActiveUsers(activeUsers);
