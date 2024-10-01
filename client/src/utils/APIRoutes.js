@@ -23,4 +23,6 @@ export const URL_GET_SEARCH_RESULT =
 
 // MONGO DB SERVER
 
-export const URL_ACTIVITY_STATS = "http://localhost:5000/api/activityStats";
+export const URL_ACTIVITY_STATS =
+  "https://watchme-ia87.onrender.com/api/activityStats";
+//  "http://localhost:5000/api/activityStats";
