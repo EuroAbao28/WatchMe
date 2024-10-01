@@ -5,6 +5,7 @@ import FourSectionContainer from "../components/FourSectionContainer";
 import Top10AnimeContainer from "../components/Top10AnimeContainer";
 import GenresContainer from "../components/GenresContainer";
 import { useAnimeContext } from "../contexts/AnimeContext";
+import ActivityStats from "../components/ActivityStats";
 
 function Home() {
   const { homeData } = useAnimeContext();
@@ -16,6 +17,10 @@ function Home() {
       <div className="mt-12 md:mx-6">
         <div className="flex gap-12 max-xl:flex-col ">
           <div className="xl:w-[55rem] w-full flex flex-col gap-y-12">
+            <div className="xl:hidden">
+              <ActivityStats />
+            </div>
+
             <ScrollXContainer
               header={"Trending Series"}
               data={homeData.trendingAnimes}
@@ -35,6 +40,10 @@ function Home() {
           </div>
 
           <div className="flex flex-col flex-1 gap-12 lg:w-full max-md:mx-6">
+            <div className="max-xl:hidden">
+              <ActivityStats />
+            </div>
+
             <Top10AnimeContainer data={homeData.top10Animes} />
 
             <GenresContainer data={homeData.genres} />
