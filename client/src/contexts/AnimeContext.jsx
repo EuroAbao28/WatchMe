@@ -51,7 +51,9 @@ export const AnimeProvider = ({ children }) => {
     console.log("SOCKET USE EFFECT RUNNING");
     getActivityStats();
 
-    socket.on("updateVisits", () => {});
+    socket.on("updateVisits", () => {
+      getActivityStats();
+    });
 
     socket.on("activeUsers", (activeUsers) => {
       setActiveUsers(activeUsers);
