@@ -37,6 +37,8 @@ export const AnimeProvider = ({ children }) => {
     try {
       const response = await axios.post(`${URL_ACTIVITY_STATS}/visits`);
 
+      console.log(response.data);
+
       setVisits(response.data.visits);
       setWatched(response.data.watched);
     } catch (error) {
