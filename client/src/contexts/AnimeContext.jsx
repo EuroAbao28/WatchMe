@@ -34,11 +34,8 @@ export const AnimeProvider = ({ children }) => {
   // }, []);
 
   const getActivityStats = async () => {
-    console.log("GET ACTIVITY CALLED");
     try {
       const response = await axios.post(`${URL_ACTIVITY_STATS}/visits`);
-
-      console.log(response.data);
 
       setVisits(response.data.visits);
       setWatched(response.data.watched);
@@ -48,8 +45,6 @@ export const AnimeProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("SOCKET USE EFFECT RUNNING");
-
     socket.on("updateVisits", () => {
       getActivityStats();
     });
