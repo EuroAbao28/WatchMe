@@ -6,7 +6,6 @@ import Top10AnimeContainer from "../components/Top10AnimeContainer";
 import GenresContainer from "../components/GenresContainer";
 import { useAnimeContext } from "../contexts/AnimeContext";
 import ActivityStats from "../components/ActivityStats";
-import CountUp from "react-countup";
 
 function Home() {
   const { homeData } = useAnimeContext();
@@ -41,10 +40,6 @@ function Home() {
           </div>
 
           <div className="flex flex-col flex-1 gap-12 lg:w-full max-md:mx-6">
-            <div>
-              <CountUp start={0} end={99} duration={5} />
-            </div>
-
             <div className="max-xl:hidden">
               <ActivityStats />
             </div>

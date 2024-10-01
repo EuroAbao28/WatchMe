@@ -1,6 +1,7 @@
 import React from "react";
 import TextHeader from "./TextHeader";
 import { useAnimeContext } from "../contexts/AnimeContext";
+import CountUp from "react-countup";
 
 function ActivityStats() {
   const { visits, watched, activeUsers } = useAnimeContext();
@@ -11,7 +12,8 @@ function ActivityStats() {
 
       <div className="flex gap-4 mt-4">
         <div className="flex flex-col items-center justify-center flex-1 py-4 text-orange-500 rounded cursor-default hover:bg-orange-500/10 bg-orange-500/5 outline outline-1 outline-orange-500/20">
-          <h3 className="font-extrabold ">{visits}</h3>
+          <CountUp start={0} end={visits} duration={5} />
+
           <p className="text-xs font-semibold ">Visits</p>
         </div>
 
