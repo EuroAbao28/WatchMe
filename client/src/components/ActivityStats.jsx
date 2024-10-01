@@ -3,7 +3,7 @@ import TextHeader from "./TextHeader";
 import { useAnimeContext } from "../contexts/AnimeContext";
 
 function ActivityStats() {
-  const { visits, activeUsers } = useAnimeContext();
+  const { visits, watched, activeUsers } = useAnimeContext();
 
   return (
     <div className="p-6 rounded-md md:bg-gray-500/5 md:outline outline-1 outline-gray-500/20">
@@ -21,7 +21,7 @@ function ActivityStats() {
         </div>
 
         <div className="flex flex-col items-center justify-center flex-1 py-4 text-indigo-500 rounded cursor-default hover:bg-indigo-500/10 bg-indigo-500/5 outline outline-1 outline-indigo-500/20">
-          <h3 className="font-extrabold ">09</h3>
+          <h3 className="font-extrabold ">{watched}</h3>
           <p className="text-xs font-semibold ">Watched</p>
         </div>
       </div>

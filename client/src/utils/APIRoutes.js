@@ -23,5 +23,4 @@ export const URL_GET_SEARCH_RESULT =
 
 // MONGO DB SERVER
 
-export const URL_ACTIVITY_STATS =
-  "http://localhost:5000/api/activityStats/visits";
+export const URL_ACTIVITY_STATS = "http://localhost:5000/api/activityStats";

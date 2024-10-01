@@ -51,7 +51,13 @@ io.on("connection", (socket) => {
   // notify all clients
   io.emit("activeUsers", activeUsers);
 
+  // if someone connect, update call from the frontend, to update the database
   io.emit("updateVisits");
+
+  socket.on("updateWatched", () => {
+    console.log("Received updateWatched event");
+    socket.broadcast.emit("setUpdateWatched");
+  });
 
   // When a user disconnects
   socket.on("disconnect", () => {

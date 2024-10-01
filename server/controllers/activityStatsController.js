@@ -19,9 +19,13 @@ const incrementVisits = async (req, res) => {
   }
 };
 
-const getVisits = async (req, res) => {
+const incrementWatched = async (req, res) => {
   try {
-    const response = await activityStatsModel.findOne();
+    let response = await activityStatsModel.findOne();
+
+    // Increment visits if the document exists
+    response.watched += 1;
+    await response.save();
 
     res.status(200).json(response);
   } catch (error) {
@@ -30,4 +34,4 @@ const getVisits = async (req, res) => {
   }
 };
 
-module.exports = { incrementVisits, getVisits };
+module.exports = { incrementVisits, incrementWatched };

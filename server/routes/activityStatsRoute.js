@@ -1,10 +1,11 @@
 const {
   incrementVisits,
-  getVisits,
+  incrementWatched,
 } = require("../controllers/activityStatsController");
 
 const router = require("express").Router();
 
-router.route("/visits").post(incrementVisits).get(getVisits);
+router.post("/visits", incrementVisits);
+router.post("/watched", incrementWatched);
 
 module.exports = router;

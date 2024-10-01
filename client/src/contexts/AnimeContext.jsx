@@ -5,7 +5,7 @@ import axios from "axios";
 import { URL_ACTIVITY_STATS } from "../utils/APIRoutes";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+export const socket = io("http://localhost:5000");
 
 const AnimeContext = createContext();
 
@@ -13,6 +13,7 @@ export const AnimeProvider = ({ children }) => {
   const [userID, setUseID] = useState(sessionStorage.getItem("userID"));
 
   const [visits, setVisits] = useState(null);
+  const [watched, setWatched] = useState(null);
   const [activeUsers, setActiveUsers] = useState(null);
 
   const { homeData, isHomeLoading, isHomeError } = useGetHome();
@@ -22,24 +23,22 @@ export const AnimeProvider = ({ children }) => {
     category: "sub",
   });
 
-  useEffect(() => {
-    if (!userID) {
-      let randomNumber = Math.floor(10000000 + Math.random() * 90000000);
+  // useEffect(() => {
+  //   if (!userID) {
+  //     let randomNumber = Math.floor(10000000 + Math.random() * 90000000);
 
-      console.log(randomNumber);
+  //     setUseID(randomNumber);
 
-      setUseID(randomNumber);
-
-      sessionStorage.setItem("userID", randomNumber);
-    }
-  }, []);
+  //     sessionStorage.setItem("userID", randomNumber);
+  //   }
+  // }, []);
 
   const getActivityStats = async () => {
     try {
-      const response = await axios.post(URL_ACTIVITY_STATS);
+      const response = await axios.post(`${URL_ACTIVITY_STATS}/visits`);
 
-      console.log(response.data);
       setVisits(response.data.visits);
+      setWatched(response.data.watched);
     } catch (error) {
       console.log(error);
     }
@@ -51,13 +50,18 @@ export const AnimeProvider = ({ children }) => {
     });
 
     socket.on("activeUsers", (activeUsers) => {
-      console.log(activeUsers);
       setActiveUsers(activeUsers);
     });
 
-    // Cleanup on component unmount
+    socket.on("setUpdateWatched", () => {
+      setWatched((prev) => prev + 1);
+    });
+
+    // Cleanup only the specific events on component unmount
     return () => {
-      socket.disconnect();
+      socket.off("updateVisits");
+      socket.off("activeUsers");
+      socket.off("setUpdateWatched");
     };
   }, []);
 
@@ -75,6 +79,8 @@ export const AnimeProvider = ({ children }) => {
         setCurrentServerCategory,
         visits,
         activeUsers,
+        watched,
+        setWatched,
       }}>
       {children}
     </AnimeContext.Provider>

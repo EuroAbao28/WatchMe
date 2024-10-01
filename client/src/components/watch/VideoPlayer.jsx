@@ -2,13 +2,15 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useGetStreamLink } from "../../hooks/useAnimeHook";
 import ReactPlayer from "react-player";
-import { useAnimeContext } from "../../contexts/AnimeContext";
+import { socket, useAnimeContext } from "../../contexts/AnimeContext";
+import axios from "axios";
+import { URL_ACTIVITY_STATS } from "../../utils/APIRoutes";
 
 function VideoPlayer({ isGetStreamLoading }) {
   const location = useLocation();
   const episodeId = location.pathname.split("/watch/")[1] + location.search;
 
-  const { currentServerCategory } = useAnimeContext();
+  const { currentServerCategory, setWatched } = useAnimeContext();
 
   const { streamData, isStreamLoading, isStreamError } = useGetStreamLink({
     episodeId,
@@ -19,6 +21,20 @@ function VideoPlayer({ isGetStreamLoading }) {
   const sendState = () => {
     isGetStreamLoading(isStreamLoading);
   };
+
+  const handleUpdateWatched = async (duration) => {
+    try {
+      const response = await axios.post(`${URL_ACTIVITY_STATS}/watched`);
+
+      setWatched(Number(response.data.watched));
+
+      socket.emit("updateWatched");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     sendState();
@@ -42,6 +58,7 @@ function VideoPlayer({ isGetStreamLoading }) {
             url={streamData.sources[0].url}
             playing={true}
             controls={true}
+            onDuration={(duration) => handleUpdateWatched(duration)}
             width="100%"
             height="100%"
             config={{
