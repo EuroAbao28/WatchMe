@@ -292,6 +292,7 @@ function ChatTab() {
                 type="text"
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
+                maxLength={50}
                 placeholder="Write a message..."
                 className="w-full px-4 py-2 rounded-full bg-gray-300/5 outline outline-1 outline-gray-300/20"
               />
