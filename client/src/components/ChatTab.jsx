@@ -40,7 +40,6 @@ function ChatTab() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(userInput);
 
     setIsLogInLoading(true);
 
@@ -50,7 +49,6 @@ function ChatTab() {
         password: userInput.password,
       });
 
-      console.log(response.data);
       setUser(response.data.user);
       localStorage.setItem("userToken", response.data.token);
       setIsLogInLoading(false);
@@ -66,8 +64,6 @@ function ChatTab() {
 
     if (!userInput.username || !userInput.password) return;
 
-    console.log(userInput);
-
     setIsCreateLoading(true);
 
     try {
@@ -76,7 +72,6 @@ function ChatTab() {
         password: userInput.password,
       });
 
-      console.log(response.data);
       setUser(response.data.user);
       localStorage.setItem("userToken", response.data.token);
       setIsCreateLoading(false);
@@ -98,15 +93,11 @@ function ChatTab() {
         senderID: user._id,
       });
 
-      console.log(response.data);
-
       const messageData = {
         message: messageInput.trim(),
         createdAt: new Date(),
         senderID: { _id: user._id, username: user.username },
       };
-
-      console.log(messageData);
 
       setMessages([...messages, messageData]);
       setMessageInput("");
@@ -126,7 +117,6 @@ function ChatTab() {
 
     const intervalId = setInterval(() => {
       setMessageCooldown((prev) => prev - 1);
-      console.log(messageCooldown);
     }, 1000);
 
     // Clear interval when cooldown reaches 0
