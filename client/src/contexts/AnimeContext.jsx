@@ -5,8 +5,8 @@ import axios from "axios";
 import { URL_ACTIVITY_STATS, URL_USER_AUTH } from "../utils/APIRoutes";
 import { io } from "socket.io-client";
 
-// export const socket = io("https://watchme-ia87.onrender.com/");
-export const socket = io("http://localhost:5000");
+export const socket = io("https://watchme-ia87.onrender.com/");
+// export const socket = io("http://localhost:5000");
 
 const AnimeContext = createContext();
 
