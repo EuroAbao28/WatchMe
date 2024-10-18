@@ -18,6 +18,7 @@ import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { BsCcSquareFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa6";
 import classNames from "classnames";
+import { useUtilityContext } from "../contexts/UtilityContext";
 
 function Watch() {
   const { id } = useParams();
@@ -36,6 +37,8 @@ function Watch() {
   } = useAnimeContext();
   const { infoData, isInfoLoading, isInfoError } = useGetInfo(id);
   const { getServer, serverData } = useGetServer(episodeId);
+
+  const { setIsMessageTabOpen } = useUtilityContext();
 
   useEffect(() => {
     if (episode) {
@@ -101,6 +104,11 @@ function Watch() {
 
     setCurrentServerCategory(data);
   };
+
+  // always close the chat tab when first mounted
+  useEffect(() => {
+    setIsMessageTabOpen(false);
+  }, []);
 
   if (isInfoLoading || isInfoError)
     return <LoadingScreen errorHook={isInfoError} />;

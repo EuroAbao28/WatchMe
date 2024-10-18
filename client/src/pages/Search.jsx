@@ -9,8 +9,10 @@ import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import classNames from "classnames";
 import { RiCollapseDiagonalLine } from "react-icons/ri";
 import { FiSearch, FiRotateCcw } from "react-icons/fi";
+import { useUtilityContext } from "../contexts/UtilityContext";
 
 function Search() {
+  const { setIsMessageTabOpen } = useUtilityContext();
   const { homeData } = useAnimeContext();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -144,6 +146,11 @@ function Search() {
       genres: filterParams.genres.join(","),
     });
   }, [searchParams]);
+
+  // always close the chat tab when first mounted
+  useEffect(() => {
+    setIsMessageTabOpen(false);
+  }, []);
 
   if (isSearchResultError)
     return <LoadingScreen errorHook={isSearchResultError} />;

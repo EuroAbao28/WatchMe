@@ -8,8 +8,11 @@ import { BsCcSquareFill } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa6";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import classNames from "classnames";
+import { useUtilityContext } from "../contexts/UtilityContext";
 
 function Genre() {
+  const { setIsMessageTabOpen } = useUtilityContext();
+
   const { genre } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = searchParams.get("page");
@@ -49,6 +52,11 @@ function Genre() {
       }, 200);
     }
   };
+
+  // always close the chat tab when first mounted
+  useEffect(() => {
+    setIsMessageTabOpen(false);
+  }, []);
 
   if ((!genreData.animes && isGenreLoading) || isGenreError)
     return <LoadingScreen errorHook={isGenreError} />;

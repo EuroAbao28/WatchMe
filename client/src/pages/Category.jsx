@@ -7,8 +7,11 @@ import Top10AnimeContainer from "../components/Top10AnimeContainer";
 import GenresContainer from "../components/GenresContainer";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import classNames from "classnames";
+import { useUtilityContext } from "../contexts/UtilityContext";
 
 function Category() {
+  const { setIsMessageTabOpen } = useUtilityContext();
+
   const { category } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = searchParams.get("page");
@@ -48,6 +51,11 @@ function Category() {
       }, 200);
     }
   };
+
+  // always close the chat tab when first mounted
+  useEffect(() => {
+    setIsMessageTabOpen(false);
+  }, []);
 
   if ((!categoryData.animes && isCategoryLoading) || isCategoryError)
     return <LoadingScreen errorHook={isCategoryError} />;
