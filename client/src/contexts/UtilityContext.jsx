@@ -23,8 +23,6 @@ export const UtilityProvider = ({ children }) => {
           },
         });
 
-        console.log(response.data);
-
         setUser(response.data);
       } catch (error) {
         console.log(error);
@@ -47,8 +45,6 @@ export const UtilityProvider = ({ children }) => {
               Authorization: `Bearer ${userToken}`,
             },
           });
-
-          console.log(response.data);
 
           setMessages(response.data);
         } catch (error) {
