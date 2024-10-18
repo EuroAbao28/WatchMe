@@ -61,7 +61,7 @@ const ScrollXContainer = ({ data, header }) => {
             ))}
           </>
         ) : (
-          <div className="px-4 py-2 rounded-md bg-gray-500/5 outline outline-1 outline-gray-500/20">
+          <div className="px-4 py-2 rounded-md w-fit bg-gray-500/5 outline outline-1 outline-gray-500/20">
             No Data Available
           </div>
         )}

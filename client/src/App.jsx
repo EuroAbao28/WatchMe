@@ -7,25 +7,28 @@ import VideoPlayer from "./components/watch/VideoPlayer";
 import Category from "./pages/Category";
 import Genre from "./pages/Genre";
 import Search from "./pages/Search";
+import { UtilityProvider } from "./contexts/UtilityContext";
 
 function App() {
   return (
     <>
-      <AnimeProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="watch/:id" element={<Watch />}>
-                <Route path=":ep" element={<VideoPlayer />} />
+      <UtilityProvider>
+        <AnimeProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="watch/:id" element={<Watch />}>
+                  <Route path=":ep" element={<VideoPlayer />} />
+                </Route>
+                <Route path=":category" element={<Category />} />
+                <Route path="genre/:genre" element={<Genre />} />
+                <Route path="search" element={<Search />} />
               </Route>
-              <Route path=":category" element={<Category />} />
-              <Route path="genre/:genre" element={<Genre />} />
-              <Route path="search" element={<Search />} />
-            </Route>
-          </Routes>
-        </Router>
-      </AnimeProvider>
+            </Routes>
+          </Router>
+        </AnimeProvider>
+      </UtilityProvider>
     </>
   );
 }

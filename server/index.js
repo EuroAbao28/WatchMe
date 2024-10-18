@@ -31,12 +31,15 @@ app.use(express.urlencoded({ extended: false }));
 
 // routes
 app.use("/api/activityStats", require("./routes/activityStatsRoute"));
+app.use("/api/user", require("./routes/userRoute"));
+app.use("/api/message", require("./routes/messageRoute"));
 
 // setup socket.io server
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "https://watch-me.vercel.app",
+    // origin: "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 });
@@ -57,6 +60,10 @@ io.on("connection", (socket) => {
   socket.on("updateWatched", () => {
     console.log("Received updateWatched event");
     socket.broadcast.emit("setUpdateWatched");
+  });
+
+  socket.on("sendMessage", (data) => {
+    socket.broadcast.emit("receiveMessage", data);
   });
 
   // When a user disconnects

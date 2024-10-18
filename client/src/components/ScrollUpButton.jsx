@@ -1,8 +1,16 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
-import { LuChevronUp } from "react-icons/lu";
+import { LuChevronUp, LuMessageSquare } from "react-icons/lu";
+import { useUtilityContext } from "../contexts/UtilityContext";
 
 function ScrollUpButton() {
+  const {
+    isMessageTabOpen,
+    setIsMessageTabOpen,
+    unreadMessages,
+    setUnreadMessages,
+  } = useUtilityContext();
+
   const [isButtonShow, setIsButtonShow] = useState(false);
   let scrollTimeout;
 
@@ -11,6 +19,11 @@ function ScrollUpButton() {
       top: 0,
       behavior: "smooth",
     });
+  };
+
+  const handleOpenChatTab = () => {
+    setIsMessageTabOpen(true);
+    setUnreadMessages(false);
   };
 
   useEffect(() => {
@@ -44,17 +57,34 @@ function ScrollUpButton() {
 
   return (
     <>
-      <button
-        onClick={handleScrollUp}
-        className={classNames(
-          "fixed z-50 p-4 text-2xl transition-all transform rounded-full bg-rose-500 right-8 text-gray-950 hover:scale-110 active:scale-95 outline-rose-500 outline-offset-2 hover:outline",
-          {
-            "bottom-6": isButtonShow,
-            "-bottom-20": !isButtonShow,
-          }
-        )}>
-        <LuChevronUp />
-      </button>
+      {!isMessageTabOpen && (
+        <div
+          className={classNames(
+            "fixed z-40 bottom-6 transition-all ease-in-out duration-500  right-6 sm:right-8 "
+          )}>
+          <button
+            onClick={handleScrollUp}
+            className={classNames(
+              "flex justify-center items-center h-12 aspect-square max-sm:p-3  max-sm:px-3  text-2xl overflow-hidden transition-all duration-300 rounded-full bg-rose-500  text-gray-950 hover:scale-110 active:scale-95 outline-rose-500 outline-offset-2 hover:outline absolute ",
+              {
+                "-top-16 ": isButtonShow,
+                "top-0 ": !isButtonShow,
+              }
+            )}>
+            <LuChevronUp />
+          </button>
+
+          <button
+            onClick={handleOpenChatTab}
+            className="relative flex items-center justify-center h-12 text-2xl transition-all transform rounded-full aspect-square bg-rose-500 max-sm:p-3 text-gray-950 hover:scale-110 active:scale-95 outline-rose-500 outline-offset-2 hover:outline">
+            <LuMessageSquare />
+
+            {unreadMessages && (
+              <div className="absolute top-0 right-0 w-3 bg-green-500 rounded-full outline outline-3 outline-gray-950 aspect-square"></div>
+            )}
+          </button>
+        </div>
+      )}
     </>
   );
 }

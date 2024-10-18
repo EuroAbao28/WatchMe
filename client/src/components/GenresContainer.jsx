@@ -16,14 +16,22 @@ function GenresContainer({ data, isForSide = true }) {
             " xl:grid-cols-7": !isForSide,
           }
         )}>
-        {data.map((item, index) => (
-          <Link
-            to={`/genre/${item.toLowerCase().replace(/ /g, "-")}?page=1`}
-            key={item}
-            className="p-2 text-sm rounded hover:bg-gray-500/10">
-            {item}
-          </Link>
-        ))}
+        {data.length > 0 ? (
+          <>
+            {data.map((item, index) => (
+              <Link
+                to={`/genre/${item.toLowerCase().replace(/ /g, "-")}?page=1`}
+                key={item}
+                className="p-2 text-sm rounded hover:bg-gray-500/10">
+                {item}
+              </Link>
+            ))}
+          </>
+        ) : (
+          <div className="px-4 py-2 rounded-md col-span-full w-fit bg-gray-500/5 outline outline-1 outline-gray-500/20">
+            No Data Available
+          </div>
+        )}
       </div>
     </div>
   );

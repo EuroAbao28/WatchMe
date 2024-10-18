@@ -2,16 +2,15 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useGetHome } from "../hooks/useAnimeHook";
 import LoadingScreen from "../components/LoadingScreen";
 import axios from "axios";
-import { URL_ACTIVITY_STATS } from "../utils/APIRoutes";
+import { URL_ACTIVITY_STATS, URL_USER_AUTH } from "../utils/APIRoutes";
 import { io } from "socket.io-client";
 
-export const socket = io("https://watchme-ia87.onrender.com/");
+// export const socket = io("https://watchme-ia87.onrender.com/");
+export const socket = io("http://localhost:5000");
 
 const AnimeContext = createContext();
 
 export const AnimeProvider = ({ children }) => {
-  const [userID, setUseID] = useState(sessionStorage.getItem("userID"));
-
   const [visits, setVisits] = useState(null);
   const [watched, setWatched] = useState(null);
   const [activeUsers, setActiveUsers] = useState(null);
@@ -22,16 +21,6 @@ export const AnimeProvider = ({ children }) => {
     server: "hd-1",
     category: "sub",
   });
-
-  // useEffect(() => {
-  //   if (!userID) {
-  //     let randomNumber = Math.floor(10000000 + Math.random() * 90000000);
-
-  //     setUseID(randomNumber);
-
-  //     sessionStorage.setItem("userID", randomNumber);
-  //   }
-  // }, []);
 
   const getActivityStats = async () => {
     try {
