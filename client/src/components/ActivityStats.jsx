@@ -44,7 +44,7 @@ function ActivityStats() {
             </div>
           ) : (
             <p className="font-extrabold ">
-              <CountUp start={0} end={activeUsers} duration={4} />
+              <CountUp start={0} end={watched} duration={4} />
             </p>
           )}
           <p className="text-xs font-semibold ">Watched</p>
