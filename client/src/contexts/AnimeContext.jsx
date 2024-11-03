@@ -14,6 +14,7 @@ export const AnimeProvider = ({ children }) => {
   const [visits, setVisits] = useState(null);
   const [watched, setWatched] = useState(null);
   const [activeUsers, setActiveUsers] = useState(null);
+  const [activityLoader, setActivityLoader] = useState(false);
 
   const { homeData, isHomeLoading, isHomeError } = useGetHome();
   const [currentVideoData, setCurrentVideoData] = useState({});
@@ -23,11 +24,17 @@ export const AnimeProvider = ({ children }) => {
   });
 
   const getActivityStats = async () => {
+    if (!visits || !watched) {
+      setActivityLoader(true);
+    }
+
     try {
       const response = await axios.post(`${URL_ACTIVITY_STATS}/visits`);
 
       setVisits(response.data.visits);
       setWatched(response.data.watched);
+
+      setActivityLoader(false);
     } catch (error) {
       console.log(error);
     }
@@ -70,6 +77,7 @@ export const AnimeProvider = ({ children }) => {
         activeUsers,
         watched,
         setWatched,
+        activityLoader,
       }}>
       {children}
     </AnimeContext.Provider>
