@@ -105,13 +105,17 @@ export const useGetStreamLink = (payload) => {
         },
       });
 
+      if(data.sources.length === 0){
+        throw new Error();
+      }
+
       setStreamData(data);
       setIsStreamLoading(false);
 
       // set the data to context
       setCurrentVideoData(data);
 
-      // console.log("STREAM DATA: ", combinedData);
+      // console.log("STREAM DATA: ", data);
     } catch (error) {
       setIsStreamError(error);
       setIsStreamLoading(false);

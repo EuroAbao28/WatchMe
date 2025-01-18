@@ -53,7 +53,7 @@ function VideoPlayer({ isGetStreamLoading }) {
   return (
     <div className="flex h-[20rem] md:h-[25rem] lg:h-[30rem]  items-center  justify-center bg-black md:mx-6 rounded-b-md">
       <div className="w-full h-full aspect-video focus:outline-none active:outline-none active:border-none focus:border-none ">
-        {!isStreamLoading && !isStreamError ? (
+        {!isStreamLoading && !isStreamError  && streamData && streamData?.sources[0]?.url ? (
           <ReactPlayer
             url={streamData.sources[0].url}
             playing={true}
@@ -74,7 +74,7 @@ function VideoPlayer({ isGetStreamLoading }) {
           />
         ) : (
           <>
-            {isStreamError ? (
+            {isStreamError && streamData && !streamData.sources ? (
               <div className="flex items-center justify-center h-full text-gray-300/50">
                 Something went wrong. Please try again later.
               </div>
